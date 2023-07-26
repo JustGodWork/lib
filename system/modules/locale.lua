@@ -69,6 +69,9 @@ Locale = Class.singleton('Locale', function(class)
         self.locales[_name] = type(self.locales[_name]) == 'table' and self.locales[_name] or {};
 
         for key, value in pairs(data) do
+            if (type(self.locales[_name][key:lower()]) == 'string') then
+                console.warn(('Locale:Register: Overwriting key %s in locale %s'):format(key, _name));
+            end
             self.locales[_name][key:lower()] = value;
         end
 
@@ -87,6 +90,10 @@ Locale = Class.singleton('Locale', function(class)
 
 end);
 
+exports('AddLocale', function(lang, data)
+    Locale:Register(lang, data);
+end);
+
 ---@param str string
 ---@vararg any
 function _U(str, ...)
@@ -97,6 +104,9 @@ end
 ---@param data table
 function _C(lang, data)
     console.debug(('^7(^6Locale^7)^0 => Registering ^7(^1%s^7)'):format(lang));
+    if (lib.current_resource ~= lib.name) then
+        exports['lib']:AddLocale(lang, data);
+    end
     return Locale:Register(lang, data);
 end
 
