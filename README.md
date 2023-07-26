@@ -30,3 +30,5 @@ lib.events.emit.callback('my_event_name', function(server_message)
 end, 'arg', 'arg1', 'arg2', 1, 2, 3, 4, { "array?", "table?", "lua is good" });
 
 ```
+
+Documentation can be found here: [Visit the documentation](https://github.com/JustGodWork/lib/wiki)
