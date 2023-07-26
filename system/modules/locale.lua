@@ -48,9 +48,9 @@ Locale = Class.singleton('Locale', function(class)
         else
 
             if (not lib.is_server) then
-                return 'Locale [~r~' .. _lang .. '~s~] does not exist, Please set it in the convar.cfg'
+                return 'Locale [~r~' .. _lang .. '~s~] does not exist.'
             else
-                return '^7Locale ^0[^1' .. _lang .. '^0]^7 does not exist, Please set it in the convar.cfg'
+                return '^7Locale ^0[^1' .. _lang .. '^0]^7 does not exist.'
             end
 
         end
@@ -62,6 +62,7 @@ Locale = Class.singleton('Locale', function(class)
     function self:Register(name, data)
 
         assert(type(name) == 'string', 'Locale:Register: name must be a string');
+        assert(type(data) == 'table', 'Locale:Register: data must be a table');
 
         local _name = name:upper();
 
@@ -95,7 +96,7 @@ end
 ---@param lang string
 ---@param data table
 function _C(lang, data)
-    console.debug(('Locale: ^3Registering locale ^7[^1%s^7]'):format(lang));
+    console.debug(('^7(^6Locale^7)^0 => Registering ^7(^1%s^7)'):format(lang));
     return Locale:Register(lang, data);
 end
 
