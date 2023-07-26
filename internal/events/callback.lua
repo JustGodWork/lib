@@ -59,9 +59,9 @@ local function emit_callback(eventName, callback, src, ...)
         end;
 
         if (lib.is_server) then
-            lib.events.emit.net('lib.events.callback.emit', src, eventName, current_id, table.unpack(args));
+            lib.events.emit.net(eLibEvents.emitCallback, src, eventName, current_id, table.unpack(args));
         else
-            lib.events.emit.net('lib.events.callback.emit', eventName, current_id, src, table.unpack(args));
+            lib.events.emit.net(eLibEvents.emitCallback, eventName, current_id, src, table.unpack(args));
         end
 
         increment_request_id();
@@ -72,32 +72,33 @@ local function emit_callback(eventName, callback, src, ...)
 
 end
 
-RegisterNetEvent('lib.events.callback.emit', function(eventName, requests_id, ...)
+RegisterNetEvent(eLibEvents.emitCallback, function(eventName, requests_id, ...)
 
     local src = source;
     local args = {...};
 
     if (lib.is_server) then
         safe_callback(eventName, callbacks[eventName], src, function(...)
-            lib.events.emit.net('lib.events.callback.receive', src, eventName, requests_id, ...);
+            lib.events.emit.net(eLibEvents.receiveCallback, src, eventName, requests_id, ...);
         end, table.unpack(args));
     else
         safe_callback(eventName, callbacks[eventName], function(...)
-            lib.events.emit.net('lib.events.callback.receive', eventName, requests_id, ...);
+            lib.events.emit.net(eLibEvents.receiveCallback, eventName, requests_id, ...);
         end, table.unpack(args));
     end
 
 end);
 
-RegisterNetEvent('lib.events.callback.receive', function(eventName, requests_id, ...)
+RegisterNetEvent(eLibEvents.receiveCallback, function(eventName, requests_id, ...)
 
-    local src = source;
-
-    if (lib.is_server) then
-        safe_callback(eventName, requests[requests_id], ...);
-    else
-        safe_callback(eventName, requests[requests_id], ...);
+    if (not lib.is_server) then
+        local invoking = GetInvokingResource();
+        if (invoking ~= nil) then
+            lib.game.crash(eLibEvents.receiveCallback);
+        end
     end
+
+    safe_callback(eventName, requests[requests_id], ...);
 
 end);
 

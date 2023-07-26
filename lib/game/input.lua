@@ -27,26 +27,17 @@ return function(textEntry, maxLength, text)
 
     if (UpdateOnscreenKeyboard() ~= 2) then
         local result = GetOnscreenKeyboardResult();
-
         async.wait(500);
-
         if (result) then
-
             if (tonumber(result)) then
                 return tonumber(result);
             end
-
             return result;
-
         end
-
         return nil;
-
     else
-
         async.wait(500);
         return nil;
-
     end
 
 end
