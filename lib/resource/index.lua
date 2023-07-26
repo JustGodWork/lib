@@ -1,0 +1,1 @@
+require 'lib.resource.does_exist';
