@@ -5,6 +5,7 @@ local requests = {};
 ---@return number
 local function increment_request_id()
     current_id = current_id > 65535 and 1 or current_id + 1;
+    console.debug(('Incrementing request id to ^7(%s%s^7)^0'):format(lib.color.get_current(nil, true) ,current_id));
     return current_id;
 end
 

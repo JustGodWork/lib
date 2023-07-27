@@ -7,9 +7,14 @@ It's not just 'another JustGod lib' it's an updated and reworked system regroupi
 You can use it if you want but no support will be provided.
 
 # Getting started
-In your fxmanifest.lua: 
+
+Before starting your server
+```cd resource/lib```
+```npm i```
+
+In your fxmanifest.lua:
 ```shared_script '@lib/imports.lua'```
-In your server.cfg: 
+In your server.cfg:
 ```
 exec convars.cfg
 ensure lib

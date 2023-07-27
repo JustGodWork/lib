@@ -2,6 +2,7 @@ require 'lib.config.index';
 require 'lib.resource.index';
 require 'lib.kvp.index';
 require 'lib.color.index';
+require 'lib.discord.index';
 require 'lib.events.index';
 require 'lib.game.index';
 require 'lib.entity.index';
