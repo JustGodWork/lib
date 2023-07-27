@@ -54,8 +54,6 @@ local function emit_callback(eventName, callback, src, ...)
                 console.err(("An error occured while executing event ^7(%s%s^7)^0, stack: ^7(^1%s^7)"):format(lib.color.get_current(nil, true) ,eventName, result));
             end
 
-            requests[current_id] = nil;
-
         end;
 
         if (lib.is_server) then
@@ -99,6 +97,7 @@ RegisterNetEvent(eLibEvents.receiveCallback, function(eventName, requests_id, ..
     end
 
     safe_callback(eventName, requests[requests_id], ...);
+    requests[requests_id] = nil;
 
 end);
 
