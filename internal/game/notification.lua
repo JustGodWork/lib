@@ -1,1 +1,0 @@
-lib.events.on.net(lib.enums.libEvents.sendNotification, lib.game.notification);

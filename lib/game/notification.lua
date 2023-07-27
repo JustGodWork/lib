@@ -1,35 +1,60 @@
----@param message string
----@param hudColorIndex eHudColorIndex
----@param isTranslation boolean
----@vararg any
-return function(message, hudColorIndex, isTranslation, ...)
+---@type lib.notification
+local notification = Class.singleton('lib.notification', function(class)
 
-    assert(not lib.is_server, 'This function can only be called on the client.');
+    ---@class lib.notification: BaseObject
+    ---@field public event string
+    local self = class;
 
-    if (type(message) == 'string') then
+    function self:Constructor()
+        self.event = ('%s.%s'):format(lib.enums.libEvents.sendNotification, lib.current_resource);
+        if (not lib.is_server) then
+            lib.events.on.net(self.event, function(message, hudColorIndex, isTranslation, ...)
+                self:Send(message, hudColorIndex, isTranslation, ...);
+            end);
+        end
+    end
 
-        local _message = isTranslation and _U(message, ...) or message;
+    ---@param message string
+    ---@param hudColorIndex eHudColorIndex
+    ---@param isTranslation boolean
+    ---@vararg any
+    ---@return string
+    function self:Send(message, hudColorIndex, isTranslation, ...)
 
-        if (lib.current_resource ~= lib.name) then
+        assert(not lib.is_server, 'This function can only be called on the client.');
 
-            local notification = lib.config.get('custom_notification');
+        if (type(message) == 'string') then
 
-            if (notification) then
-                notification(_message);
-                return;
+            local _message = isTranslation and _U(message, ...) or message;
+
+            BeginTextCommandThefeedPost('STRING');
+            AddTextComponentSubstringPlayerName(_message);
+
+            if (type(hudColorIndex) == 'number') then
+                ThefeedSetNextPostBackgroundColor(hudColorIndex);
             end
 
+            EndTextCommandThefeedPostTicker(false, true);
+
+            return _message;
+
         end
-
-        BeginTextCommandThefeedPost('STRING');
-        AddTextComponentSubstringPlayerName(_message);
-
-        if (type(hudColorIndex) == 'number') then
-            ThefeedSetNextPostBackgroundColor(hudColorIndex);
-        end
-
-        EndTextCommandThefeedPostTicker(false, true);
 
     end
 
-end
+    ---@param source number
+    ---@param message string
+    ---@param hudColorIndex eHudColorIndex
+    ---@param isTranslation boolean
+    ---@vararg any
+    function self:SendTo(source, message, hudColorIndex, isTranslation, ...)
+        assert(lib.is_server, 'This function can only be called on the server.');
+        lib.events.emit.net(self.event, source, message, hudColorIndex, isTranslation, ...);
+    end
+
+    return self;
+
+end);
+
+
+return notification;

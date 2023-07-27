@@ -68,11 +68,18 @@ Locale = Class.singleton('Locale', function(class)
 
         self.locales[_name] = type(self.locales[_name]) == 'table' and self.locales[_name] or {};
 
+        local count = 0;
+
         for key, value in pairs(data) do
             if (type(self.locales[_name][key:lower()]) == 'string') then
-                console.warn(('Locale:Register: Overwriting key %s in locale %s'):format(key, _name));
+                count = count + 1;
+                console.warn(('Locale:Register: overwritting key ^3%s^0 in locale ^1%s^0'):format(key, _name));
             end
             self.locales[_name][key:lower()] = value;
+        end
+
+        if (count > 0) then
+            console.debug(('Locale:Register: Replaced ^3x%s^0 keys in locale ^1%s^0'):format(count, _name));
         end
 
         return self;
@@ -90,12 +97,6 @@ Locale = Class.singleton('Locale', function(class)
 
 end);
 
-if (lib.current_resource == lib.name) then
-    exports('AddLocale', function(lang, data)
-        Locale:Register(lang, data);
-    end);
-end
-
 ---@param str string
 ---@vararg any
 function _U(str, ...)
@@ -106,9 +107,6 @@ end
 ---@param data table
 function _C(lang, data)
     console.debug(('^7(^6Locale^7)^0 => Registering ^7(^1%s^7)'):format(lang));
-    if (lib.current_resource ~= lib.name) then
-        exports['lib']:AddLocale(lang, data);
-    end
     return Locale:Register(lang, data);
 end
 
