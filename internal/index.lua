@@ -1,2 +1,2 @@
 require 'internal.events.index';
-require 'internal.game.notification';
+require 'internal.game.index';
