@@ -90,9 +90,11 @@ Locale = Class.singleton('Locale', function(class)
 
 end);
 
-exports('AddLocale', function(lang, data)
-    Locale:Register(lang, data);
-end);
+if (lib.current_resource == lib.name) then
+    exports('AddLocale', function(lang, data)
+        Locale:Register(lang, data);
+    end);
+end
 
 ---@param str string
 ---@vararg any

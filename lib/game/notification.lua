@@ -6,15 +6,19 @@ return function(message, hudColorIndex, isTranslation, ...)
 
     assert(not lib.is_server, 'This function can only be called on the client.');
 
-    local notification = lib.config.get('custom_notification');
-
     if (type(message) == 'string') then
 
         local _message = isTranslation and _U(message, ...) or message;
 
-        if (notification) then
-            notification(_message);
-            return;
+        if (lib.current_resource ~= lib.name) then
+
+            local notification = lib.config.get('custom_notification');
+
+            if (notification) then
+                notification(_message);
+                return;
+            end
+
         end
 
         BeginTextCommandThefeedPost('STRING');
