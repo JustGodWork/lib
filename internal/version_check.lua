@@ -25,6 +25,7 @@ if (lib.is_server) then
                     console.err('^7(^6lib^7)^0 => Failed to parse latest version informations!');
                 elseif (latest > version) then
                     console.warn(('^7(^6lib^7)^0 => A new version is available! Please update to ^3%s'):format(latest));
+                    console.warn('^7(^6lib^7)^0 => Download link: ^3https://github.com/repos/JustGodWork/lib/releases/latest');
                 elseif (latest < version) then
                     console.err(('^7(^6lib^7)^0 => Your version doesn\'t match any version in our repository. Latest version found on our repository: ^3%s'):format(latest));
                 else
