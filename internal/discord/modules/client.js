@@ -1,4 +1,4 @@
-const { Client, Partials, GatewayIntentBits, Events } = require('discord.js');
+const { Client, Partials, GatewayIntentBits, Events, Collection } = require('discord.js');
 const logger = require('./logger');
 
 const token = GetConvar('justgod_lib_discord_token', 'N/A');
@@ -41,9 +41,11 @@ const client = new Client({
     ]
 });
 
+client.commands = new Collection();
+
 if (token !== 'N/A' && typeof token === 'string') {
     client.login(token);
-    client.on(Events.ClientReady, () => {
+    client.on(Events.ClientReady, async () => {
         logger.success('Discord client is ready.');
     });
 };

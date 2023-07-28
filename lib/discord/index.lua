@@ -15,6 +15,7 @@ lib.discord = Class.singleton_extends('lib.discord', 'EventEmitter', function(cl
         self.channel = require 'lib.discord.channel';
         self.field = require 'lib.discord.field';
         self.message = require 'lib.discord.message';
+        self.slash_command = require 'lib.discord.slashcommand';
         self.guilds = {};
     end
 

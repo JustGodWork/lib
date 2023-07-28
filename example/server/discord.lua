@@ -35,3 +35,17 @@ end);
 channel:on('message', function(message)
     print(message.text .. ' was sent to discord');
 end);
+
+---OPTION CHOICES ARE NOT TESTED YET
+local command = lib.discord.slash_command('testcommand', 'This is my first lua command!', function(notify, userId, ...)
+    notify('This is my first lua command!');
+    console.log(...);
+end, 'SOME_ROLE_ID OR NOTHING')
+    :AddBooleanOption('test_boolean', 'This is my first boolean option', true)
+    :AddStringOption('test_string', 'This is my first string option', nil, true)
+    :AddNumberOption('test_number', 'This is my first number option', nil, true);
+
+--ALL METHODS BELOW ARE API RELATED SPAMMING THEM WILL RESULT IN A TIMEOUT FROM DISCORD API
+--guild:UpdateCommand(command); -- Update a command that already exist in your guild
+--guild:RemoveCommand(command.name); -- Remove a command that already exist in your guild (Not working for now)
+--guild:AddCommand(command); -- Add a command to your guild

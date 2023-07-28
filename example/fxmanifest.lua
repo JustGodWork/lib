@@ -4,6 +4,8 @@ game 'gta5';
 author 'JustGod';
 description 'Example resource for the library.';
 
+lua54 'yes'; -- USING LUA 5.4 (RECOMMENDED)
+
 --[[
     To see usage about classes,
     check: https://github.com/JustGodWork/Lua-Class/blob/main/example.lua or https://github.com/JustGodWork/Lua-Class/blob/main/example_callback.lua
