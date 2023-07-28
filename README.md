@@ -8,12 +8,13 @@ You can use it if you want but no support will be provided.
 
 # Getting started
 
-Before starting your server
-```cd resource/lib```
-```npm i```
+Before starting your server, make sure you have the webpack and yarn resources. (UP TO DATE !)
 
 In your fxmanifest.lua:
 ```shared_script '@lib/imports.lua'```
+
+Moove or copy the convars.cfg file to the root of your server where resources folder is located.
+
 In your server.cfg:
 ```
 exec convars.cfg

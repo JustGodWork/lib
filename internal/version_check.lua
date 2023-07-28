@@ -13,7 +13,7 @@ if (lib.is_server) then
         --- todo: Create HTTP Request utility
         PerformHttpRequest('https://api.github.com/repos/JustGodWork/lib/releases/latest', function(status, response)
 
-            if (status ~= 200) then console.err('^7(^6lib^7)^0 => An error occured while requesting version informations.'); return; end
+            if (status ~= 200) then return; end
 
             local data = json.decode(response);
 

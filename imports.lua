@@ -7,6 +7,16 @@ lib.name = 'lib';
 lib.current_resource = GetCurrentResourceName();
 lib.debug = GetConvar('justgod_lib_debug', "false") == "true";
 
+if (lib.current_resource ~= lib.name) then
+
+    local state = GetResourceState(lib.name);
+
+    if (not state:find('start')) then
+        print('^7(^6lib^7)^0 => ^1Unable to import lib! Please start lib before using it.^0');
+    end
+
+end
+
 local current_resource = lib.name;
 
 local modules = {};
