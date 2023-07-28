@@ -6,10 +6,6 @@ const logger = require('../logger');
 
 class CommandHandler {
 
-    constructor() {
-
-    };
-
     /**
      *
      * @param {string} name
