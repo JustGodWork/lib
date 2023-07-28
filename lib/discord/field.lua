@@ -5,6 +5,9 @@
 ---@overload fun(): lib.discord.field
 local Field = Class.new 'lib.discord.field';
 
+---@param name string
+---@param value string
+---@param inline boolean
 function Field:Constructor(name, value, inline)
     self.name = tostring(name);
     self.value = tostring(value);

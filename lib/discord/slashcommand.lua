@@ -6,6 +6,10 @@
 ---@overload fun(name: string, description: string, callback: fun(notify: fun(message: string), userId: string, ...:any), roleId: string): lib.discord.slash_command
 local SlashCommand = Class.extends('lib.discord.slash_command', 'EventEmitter');
 
+---@param name string
+---@param description string
+---@param callback fun(notify: fun(message: string), userId: string, ...:any)
+---@param roleId string
 function SlashCommand:Constructor(name, description, callback, roleId)
     self:super();
     assert(lib.is_server, 'This function can only be called on the server.');
