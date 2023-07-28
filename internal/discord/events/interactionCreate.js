@@ -10,6 +10,8 @@ client.on(Events.InteractionCreate, async (interaction) => {
     const command = client.commands.get(commandName);
     if (!command) return;
 
+    if (!interaction) return;
+
     if ('data' in command && 'execute' in command) {
         try {
 
