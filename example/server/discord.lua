@@ -45,6 +45,10 @@ end, 'SOME_ROLE_ID OR NOTHING')
     :AddStringOption('test_string', 'This is my first string option', nil, true)
     :AddNumberOption('test_number', 'This is my first number option', nil, true);
 
+command:on('execute', function(userId, ...)
+    console.log('User ' .. userId .. ' executed the command with args:', {...});
+end);
+
 --ALL METHODS BELOW ARE API RELATED SPAMMING THEM WILL RESULT IN A TIMEOUT FROM DISCORD API
 --guild:UpdateCommand(command); -- Update a command that already exist in your guild
 --guild:RemoveCommand(command.name); -- Remove a command that already exist in your guild (Not working for now)

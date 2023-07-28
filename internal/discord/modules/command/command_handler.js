@@ -89,7 +89,6 @@ class CommandHandler {
                 .setDescription(typeof optionDescription === 'string' ? optionDescription: 'error_undefined_description')
                 .setRequired(typeof required === 'boolean' ? required: false)
             );
-            console.log(command.data);
         };
 
     };
