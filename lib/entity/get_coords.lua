@@ -3,7 +3,7 @@ local GET_ENTITY_HEADING = GetEntityHeading;
 
 ---@param entity number
 ---@param vec4 boolean
----@return vector3
+---@return vector3 | vector4
 return function(entity, vec4)
 
     local entity_valid = lib.entity.does_exist(entity);
