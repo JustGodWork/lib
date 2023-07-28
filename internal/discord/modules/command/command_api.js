@@ -39,7 +39,7 @@ module.exports = {
         if (_token !== null && client_id !== null) {
 
             //todo: check why get_commands is sometime not working (Maybe timedout ?)
-            const command = get_commands(guildId)?.find(command => command.name === commandName);
+            const command = get_commands(guildId).find(command => command.name === commandName);
             if (command !== undefined && command !== null) return;
 
             try {
