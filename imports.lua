@@ -97,9 +97,9 @@ lib.math = require 'system.modules.math';
 lib.string = require 'system.modules.string';
 lib.table = require 'system.modules.table';
 lib.async = require 'system.modules.async';
-lib.locale = require 'system.modules.locale';
 lib.uuid = require 'system.modules.uuid';
 
+lib.classes.locale = require 'system.modules.locale';
 lib.classes.events = require 'system.modules.classes.EventEmitter';
 
 require 'lib.index';
