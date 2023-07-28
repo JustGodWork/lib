@@ -38,28 +38,21 @@ class CommandHandler {
      * @param {string} commandName
      * @param {string} optionName
      * @param {string} optionDescription
-     * @param {object} choices
      * @param {boolean} required
      */
-    addStringOption(commandName, optionName, optionDescription, choices, required) {
+    addStringOption(commandName, optionName, optionDescription, required, ...args) {
 
         const command = client.commands.get(commandName);
         if (command === undefined) return;
 
-        if (typeof choices === 'object') {
-            command.data.addStringOption(option =>
-                option.setName(typeof optionName === 'string' ? optionName: 'error_undefined_name')
-                .setDescription(typeof optionDescription === 'string' ? optionDescription: 'error_undefined_description')
-                .setRequired(typeof required === 'boolean' ? required: false)
-            );
-        } else {
-            command.data.addStringOption(option =>
-                option.setName(typeof optionName === 'string' ? optionName: 'error_undefined_name')
-                .setDescription(typeof optionDescription === 'string' ? optionDescription: 'error_undefined_description')
-                .setRequired(typeof required === 'boolean' ? required: false)
-                .addChoices(choices)
-            );
-        };
+        console.log(...args);
+
+        command.data.addStringOption(option =>
+            option.setName(typeof optionName === 'string' ? optionName: 'error_undefined_name')
+            .setDescription(typeof optionDescription === 'string' ? optionDescription: 'error_undefined_description')
+            .setRequired(typeof required === 'boolean' ? required: false)
+            .addChoices(...args)
+        );
 
     };
 
@@ -68,28 +61,19 @@ class CommandHandler {
      * @param {string} commandName
      * @param {string} optionName
      * @param {string} optionDescription
-     * @param {object} choices
      * @param {boolean} required
      */
-    addNumberOption(commandName, optionName, optionDescription, choices, required) {
+    addNumberOption(commandName, optionName, optionDescription, required, ...args) {
 
         const command = client.commands.get(commandName);
         if (command === undefined) return;
 
-        if (typeof choices !== 'object') {
-            command.data.addNumberOption(option =>
-                option.setName(typeof optionName === 'string' ? optionName: 'error_undefined_name')
-                .setDescription(typeof optionDescription === 'string' ? optionDescription: 'error_undefined_description')
-                .setRequired(typeof required === 'boolean' ? required: false)
-                .addChoices(choices)
-            );
-        } else {
-            command.data.addNumberOption(option =>
-                option.setName(typeof optionName === 'string' ? optionName: 'error_undefined_name')
-                .setDescription(typeof optionDescription === 'string' ? optionDescription: 'error_undefined_description')
-                .setRequired(typeof required === 'boolean' ? required: false)
-            );
-        };
+        command.data.addNumberOption(option =>
+            option.setName(typeof optionName === 'string' ? optionName: 'error_undefined_name')
+            .setDescription(typeof optionDescription === 'string' ? optionDescription: 'error_undefined_description')
+            .setRequired(typeof required === 'boolean' ? required: false)
+            .addChoices(...args)
+        );
 
     };
 

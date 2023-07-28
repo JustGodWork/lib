@@ -42,8 +42,11 @@ local command = lib.discord.slash_command('testcommand', 'This is my first lua c
     console.log(...);
 end, 'SOME_ROLE_ID OR NOTHING')
     :AddBooleanOption('test_boolean', 'This is my first boolean option', true)
-    :AddStringOption('test_string', 'This is my first string option', nil, true)
-    :AddNumberOption('test_number', 'This is my first number option', nil, true);
+    :AddStringOption('test_string', 'This is my first string option', true, {
+        lib.discord.slash_command_choice('test', 'This is my first choice'),
+        lib.discord.slash_command_choice('test2', 'This is my second choice'),
+    })
+    :AddNumberOption('test_number', 'This is my first number option', true);
 
 command:on('execute', function(userId, ...)
     console.log('User ' .. userId .. ' executed the command with args:', {...});
