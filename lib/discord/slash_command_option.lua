@@ -4,7 +4,7 @@
 ---@field public choices lib.discord.slash_command_choice[]
 ---@field public required boolean
 ---@overload fun(command: lib.discord.slash_command, name: string, description: string, required: boolean, choices: lib.discord.slash_command_choice[]): lib.discord.slash_command_option
-local SlashCommandOption = Class.new 'lib.discord.slash_command_option';
+local SlashCommandOption = lib.class.new 'lib.discord.slash_command_option';
 
 ---@param command string
 ---@param name string

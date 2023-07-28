@@ -2,7 +2,7 @@
 ---@field public id string
 ---@field public guild string
 ---@overload fun(id: string): lib.discord.channel
-local Channel = Class.extends('lib.discord.channel', 'EventEmitter');
+local Channel = lib.class.extends('lib.discord.channel', 'EventEmitter');
 
 ---@param id string
 function Channel:Constructor(id)

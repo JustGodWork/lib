@@ -4,7 +4,7 @@
 ---@field public role string
 ---@field public options lib.discord.slash_command_option[]
 ---@overload fun(name: string, description: string, callback: fun(notify: fun(message: string), userId: string, ...:any), roleId: string): lib.discord.slash_command
-local SlashCommand = Class.extends('lib.discord.slash_command', 'EventEmitter');
+local SlashCommand = lib.class.extends('lib.discord.slash_command', 'EventEmitter');
 
 ---@param name string
 ---@param description string

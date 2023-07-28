@@ -18,7 +18,7 @@ local SubMenus = {};
 
 ---@class UIMenu: EventEmitter
 ---@overload fun(Title: string, Subtitle: string, X: number, Y: number, TextureDictionary: string, TextureName: string, R: number, G: number, B: number, A: number ): UIMenu
-UIMenu = Class.extends('UIMenu', 'EventEmitter');
+UIMenu = lib.class.extends('UIMenu', 'EventEmitter');
 
 local config_showHeader = lib.kvp.get_value('justgod_lib_ui_show_header');
 local config_displayGlare = lib.kvp.get_value('justgod_lib_ui_show_glare');
@@ -100,7 +100,7 @@ function UIMenu:Constructor(Title, Subtitle, X, Y, TextureDictionary, TextureNam
     self.Closable = true
     self.InstructionalScaleform = RequestScaleformMovie("INSTRUCTIONAL_BUTTONS")
     self.CursorStyle = 1
-    self.id = lib.system.modules.uuid("xx6xx-xxxxx");
+    self.id = lib.uuid("xx6xx-xxxxx");
     self.data = {}
 
     if string.starts(self.Subtitle, "~") then

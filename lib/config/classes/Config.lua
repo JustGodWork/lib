@@ -4,7 +4,7 @@
 ---@field public secondary_type string
 ---@field public data Config[]
 ---@overload fun(value: any, valueType: string, secondaryType: string, parent: Config): Config
-local Config = Class.new 'Config';
+local Config = lib.class.new 'Config';
 
 ---@param value any
 ---@param valueType string

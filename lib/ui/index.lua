@@ -28,12 +28,12 @@ if (not lib.is_server) then
     lib.ui.PanelColour = require 'lib.ui.menu.elements.PanelColour';
 
     ---@class UIItems: BaseObject
-    UIItems = Class.singleton("UIItems", function(class)
+    UIItems = lib.class.singleton("UIItems", function(class)
         return class;
     end);
 
     ---@class UIPanels: BaseObject
-    UIPanels = Class.singleton("UIPanels", function(class)
+    UIPanels = lib.class.singleton("UIPanels", function(class)
         return class;
     end);
 

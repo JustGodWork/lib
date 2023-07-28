@@ -1,5 +1,5 @@
 ---@type lib.discord
-lib.discord = Class.singleton_extends('lib.discord', 'EventEmitter', function(class)
+lib.discord = lib.class.singleton_extends('lib.discord', 'EventEmitter', function(class)
 
     ---@class lib.discord: EventEmitter
     ---@field public guild lib.discord.guild

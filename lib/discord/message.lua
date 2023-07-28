@@ -7,7 +7,7 @@
 ---@field public footer_image string
 ---@field public color eDiscordColor
 ---@overload fun(): lib.discord.message
-local Message = Class.new 'lib.discord.message';
+local Message = lib.class.new 'lib.discord.message';
 
 function Message:Constructor()
     self.author = nil;

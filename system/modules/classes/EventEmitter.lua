@@ -1,7 +1,7 @@
 ---@class EventEmitter: BaseObject
 ---@field public events table<string, table<number, fun(...: vararg)>
 ---@overload fun(): EventEmitter
-EventEmitter = Class.new 'EventEmitter';
+EventEmitter = lib.class.new 'EventEmitter';
 
 function EventEmitter:Constructor()
     self.events = {};

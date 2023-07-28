@@ -1,9 +1,7 @@
 lib = {};
-lib.system = {};
-lib.system.modules = {};
-lib.system.modules.classes = {};
 lib.cache = {};
 lib.cache.type = type;
+lib.classes = {};
 lib.is_server = IsDuplicityVersion();
 lib.name = 'lib';
 lib.current_resource = GetCurrentResourceName();
@@ -92,17 +90,17 @@ end
 
 lib.enums = require 'enums.index';
 
-lib.system.console = require 'system.console';
-lib.system.class = require 'system.class';
+lib.console = require 'system.console';
+lib.class = require 'system.class';
 
-lib.system.modules.math = require 'system.modules.math';
-lib.system.modules.string = require 'system.modules.string';
-lib.system.modules.table = require 'system.modules.table';
-lib.system.modules.async = require 'system.modules.async';
-lib.system.modules.locale = require 'system.modules.locale';
-lib.system.modules.uuid = require 'system.modules.uuid';
+lib.math = require 'system.modules.math';
+lib.string = require 'system.modules.string';
+lib.table = require 'system.modules.table';
+lib.async = require 'system.modules.async';
+lib.locale = require 'system.modules.locale';
+lib.uuid = require 'system.modules.uuid';
 
-lib.system.modules.classes.events = require 'system.modules.classes.EventEmitter';
+lib.classes.events = require 'system.modules.classes.EventEmitter';
 
 require 'lib.index';
 

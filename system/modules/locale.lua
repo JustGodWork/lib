@@ -1,5 +1,5 @@
 ---@type Locale
-Locale = Class.singleton('Locale', function(class)
+Locale = lib.class.singleton('Locale', function(class)
 
     ---@class Locale: BaseObject
     ---@field public lang string

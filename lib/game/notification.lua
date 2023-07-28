@@ -1,5 +1,5 @@
 ---@type lib.notification
-local notification = Class.singleton('lib.notification', function(class)
+local notification = lib.class.singleton('lib.notification', function(class)
 
     ---@class lib.notification: BaseObject
     ---@field public event string

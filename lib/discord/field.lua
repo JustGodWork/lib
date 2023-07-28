@@ -3,7 +3,7 @@
 ---@field public value string
 ---@field public inline boolean
 ---@overload fun(): lib.discord.field
-local Field = Class.new 'lib.discord.field';
+local Field = lib.class.new 'lib.discord.field';
 
 ---@param name string
 ---@param value string

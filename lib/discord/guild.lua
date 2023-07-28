@@ -2,7 +2,7 @@
 ---@field public id string
 ---@field public channels table<string, lib.discord.channel>
 ---@overload fun(id: string): lib.discord.guild
-local Guild = Class.extends('lib.discord.guild', 'EventEmitter');
+local Guild = lib.class.extends('lib.discord.guild', 'EventEmitter');
 
 ---@param id string
 function Guild:Constructor(id)

@@ -2,7 +2,7 @@
 ---@field public name string
 ---@field public value string
 ---@overload fun(name: string, value: string): lib.discord.slash_command_choice
-local SlashCommandChoice = Class.new 'lib.discord.slash_command_choice';
+local SlashCommandChoice = lib.class.new 'lib.discord.slash_command_choice';
 
 ---@param name string
 ---@param value string
