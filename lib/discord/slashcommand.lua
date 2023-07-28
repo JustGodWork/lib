@@ -17,7 +17,6 @@ function SlashCommand:Constructor(name, description, callback, roleId)
     self.role = roleId;
     self.options = {};
     exports['lib']:discord_add_command(name, description, function(notify, userId, data)
-        console.log(data);
         callback(notify, userId, table.unpack(data));
         self:emit('execute', userId, table.unpack(data));
     end, roleId);

@@ -45,8 +45,6 @@ class CommandHandler {
         const command = client.commands.get(commandName);
         if (command === undefined) return;
 
-        console.log(...args);
-
         command.data.addStringOption(option =>
             option.setName(typeof optionName === 'string' ? optionName: 'error_undefined_name')
             .setDescription(typeof optionDescription === 'string' ? optionDescription: 'error_undefined_description')
@@ -132,6 +130,13 @@ class CommandHandler {
         this.deffer(() => {
             if (!client.guilds.cache.has(guildId)) return;
             api.remove(guildId, commandName);
+        });
+    };
+
+    removeAll(guildId) {
+        this.deffer(() => {
+            if (!client.guilds.cache.has(guildId)) return;
+            api.remove_all(guildId);
         });
     };
 

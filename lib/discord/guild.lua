@@ -63,4 +63,9 @@ function Guild:RemoveCommand(commandName)
     return self;
 end
 
+function Guild:RemoveAllCommands()
+    exports['lib']:discord_remove_all_commands(self.id);
+    return self;
+end
+
 return Guild;

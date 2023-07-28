@@ -36,7 +36,6 @@ channel:on('message', function(message)
     print(message.text .. ' was sent to discord');
 end);
 
----OPTION CHOICES ARE NOT TESTED YET
 local command = lib.discord.slash_command('testcommand', 'This is my first lua command!', function(notify, userId, ...)
     notify('This is my first lua command!');
     console.log(...);
@@ -56,3 +55,4 @@ end);
 --guild:UpdateCommand(command); -- Update a command that already exist in your guild
 --guild:RemoveCommand(command.name); -- Remove a command that already exist in your guild (Not working for now)
 --guild:AddCommand(command); -- Add a command to your guild
+--guild:RemoveAllCommands(); -- Remove all commands created by the bot from your guild

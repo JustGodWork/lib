@@ -95,5 +95,19 @@ module.exports = {
             };
 
         };
+    },
+    remove_all: async (guildId) => {
+        if (_token !== null && client_id !== null) {
+
+            try {
+                await rest.put(
+                    Routes.applicationGuildCommands(clientId, guildId),
+                    { body: [] },
+                );
+            } catch (error) {
+                logger.error(error);
+            };
+
+        };
     }
 };
