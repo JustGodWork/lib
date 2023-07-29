@@ -64,3 +64,5 @@ if (not lib.is_server) then
     lib.ui.visual = require 'lib.ui.components.visual';
 
 end
+
+return lib.ui;

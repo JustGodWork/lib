@@ -76,3 +76,5 @@ lib.discord = lib.class.singleton_extends('lib.discord', 'EventEmitter', functio
     return self;
 
 end);
+
+return lib.discord;

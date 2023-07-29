@@ -14,3 +14,5 @@ lib.database.delete_one = require 'lib.database.delete_one';
 lib.database.update = require 'lib.database.update';
 lib.database.update_one = require 'lib.database.update_one';
 lib.database.count = require 'lib.database.count';
+
+return lib.database;

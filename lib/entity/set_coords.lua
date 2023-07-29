@@ -32,4 +32,5 @@ return function(entity, coords, no_offset)
         set_coords(entity, coords, no_offset);
 
     end
+
 end
