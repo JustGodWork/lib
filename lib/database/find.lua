@@ -6,6 +6,8 @@
 ---@overload fun(collection: string, query: table, limit: number, callback: fun(success: boolean, documents: table) | fun(success: boolean, error: string))
 return function(collection, query, options, limit, callback)
 
+    assert(lib.is_server, 'This function can only be called on the server.');
+
     local _options, _limit, _callback = options, limit, callback;
 
     if (type(options) == "number" and type(limit) == "function") then

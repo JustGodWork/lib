@@ -1,6 +1,8 @@
----@param callback fun(database: string)
+---@param callback function
 ---@return table
 return function(callback)
+
+    assert(lib.is_server, 'This function can only be called on the server.');
 
     local is_ready = lib.database.is_ready();
 

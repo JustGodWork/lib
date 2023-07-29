@@ -7,6 +7,7 @@ local Schema = lib.class.new 'lib.database.schema';
 ---@param name string
 ---@param fields table<string, any>
 function Schema:Constructor(name, fields)
+    assert(lib.is_server, 'lib.database.schema can only be called on the server.');
     self.name = name;
     self.fields = type(fields) == 'table' and fields or {};
 end

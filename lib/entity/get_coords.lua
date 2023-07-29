@@ -6,12 +6,16 @@ local GET_ENTITY_HEADING = GetEntityHeading;
 ---@return vector3 | vector4
 return function(entity, vec4)
 
-    local entity_valid = lib.entity.does_exist(entity);
+    if (not lib.entity.does_exist(entity)) then
+        return vec4 and vector4(0.0, 0.0, 0.0, 0.0) or vector3(0.0, 0.0, 0.0);
+    end
 
     if (vec4) then
         local coords = GET_ENTITY_COORDS(entity);
         local heading = GET_ENTITY_HEADING(entity);
-        return entity_valid and vector4(coords.x, coords.y, coords.z, heading) or vector4(0, 0, 0, 0);
+        return vector4(coords.x, coords.y, coords.z, heading);
     end
-    return entity_valid and GET_ENTITY_COORDS(entity) or vector3(0, 0, 0);
+
+    return GET_ENTITY_COORDS(entity);
+
 end
