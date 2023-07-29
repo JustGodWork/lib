@@ -5,7 +5,7 @@ return function(key)
     local convar = GetConvar(key);
 
     if (type(convar) == 'string') then
-        return lib.kvp.get_type(convar);
+        return lib.convar.get_type(convar);
     end
 
     return nil;

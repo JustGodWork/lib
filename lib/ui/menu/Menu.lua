@@ -20,23 +20,23 @@ local SubMenus = {};
 ---@overload fun(Title: string, Subtitle: string, X: number, Y: number, TextureDictionary: string, TextureName: string, R: number, G: number, B: number, A: number ): UIMenu
 UIMenu = lib.class.extends('UIMenu', 'EventEmitter');
 
-local config_showHeader = lib.kvp.get_value('justgod_lib_ui_show_header');
-local config_displayGlare = lib.kvp.get_value('justgod_lib_ui_show_glare');
-local config_displaySubtitle = lib.kvp.get_value('justgod_lib_ui_show_subtitle');
-local config_displayBackground = lib.kvp.get_value('justgod_lib_ui_show_background');
-local config_displayNavigationBar = lib.kvp.get_value('justgod_lib_ui_show_navbar');
-local config_displayInstructionalButton = lib.kvp.get_value('justgod_lib_ui_show_instructionnal_button');
-local config_displayPageCounter = lib.kvp.get_value('justgod_lib_ui_show_page_counter');
-local config_titles = lib.kvp.get_value('justgod_lib_ui_titles');
-local config_titleFont = lib.kvp.get_value('justgod_lib_ui_title_font');
+local config_showHeader = lib.convar.get_value('justgod_lib_ui_show_header');
+local config_displayGlare = lib.convar.get_value('justgod_lib_ui_show_glare');
+local config_displaySubtitle = lib.convar.get_value('justgod_lib_ui_show_subtitle');
+local config_displayBackground = lib.convar.get_value('justgod_lib_ui_show_background');
+local config_displayNavigationBar = lib.convar.get_value('justgod_lib_ui_show_navbar');
+local config_displayInstructionalButton = lib.convar.get_value('justgod_lib_ui_show_instructionnal_button');
+local config_displayPageCounter = lib.convar.get_value('justgod_lib_ui_show_page_counter');
+local config_titles = lib.convar.get_value('justgod_lib_ui_titles');
+local config_titleFont = lib.convar.get_value('justgod_lib_ui_title_font');
 
-local config_textureDict = lib.kvp.get_value('justgod_lib_ui_texture_dictionnary');
-local config_textureName = lib.kvp.get_value('justgod_lib_ui_texture_name');
+local config_textureDict = lib.convar.get_value('justgod_lib_ui_texture_dictionnary');
+local config_textureName = lib.convar.get_value('justgod_lib_ui_texture_name');
 local config_color = {
-    R = lib.kvp.get_value('justgod_lib_ui_color_red'),
-    G = lib.kvp.get_value('justgod_lib_ui_color_green'),
-    B = lib.kvp.get_value('justgod_lib_ui_color_blue'),
-    A = lib.kvp.get_value('justgod_lib_ui_color_alpha')
+    R = lib.convar.get_value('justgod_lib_ui_color_red'),
+    G = lib.convar.get_value('justgod_lib_ui_color_green'),
+    B = lib.convar.get_value('justgod_lib_ui_color_blue'),
+    A = lib.convar.get_value('justgod_lib_ui_color_alpha')
 };
 
 ---CreateMenu

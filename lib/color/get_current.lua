@@ -1,4 +1,4 @@
-local current = lib.kvp.get_value('justgod_lib_main_color');
+local current = lib.convar.get_value('justgod_lib_main_color');
 
 local client_colors = {
 
