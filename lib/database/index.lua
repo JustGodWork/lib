@@ -1,5 +1,6 @@
 lib.database = {};
 lib.database.schema = require 'lib.database.classes.Schema';
+lib.database.schema_field = require 'lib.database.classes.SchemaField';
 
 lib.database.validate_object = require 'lib.database.validate_object';
 lib.database.is_ready = require 'lib.database.is_ready';
