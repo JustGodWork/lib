@@ -26,7 +26,7 @@ end
 ---@param v any
 ---@param varType string | table
 ---@return boolean
-function typeof(v, varType)
+function has_type(v, varType)
 
     if (lib.cache.type(varType) == 'table' or lib.cache.type(varType) == 'string' and classes[varType]) then
         if (Class.HasMetatable(v)) then
@@ -367,6 +367,12 @@ local BaseObject = setmetatable({}, {
 ---@return BaseObject
 function BaseObject:new(...)
     return class_builder.instance(self, ...);
+end
+
+---@return string
+function BaseObject:GetType()
+    local mt = self:GetMetatable();
+    return type(mt) == 'table' and mt.__name;
 end
 
 ---@private

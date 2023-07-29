@@ -15,7 +15,7 @@ end
 ---@param object BaseObject
 ---@return table<string, any>
 function Schema:Serialize(object)
-    assert(typeof(object, self.name), ('lib.database.schema:Serialize() %s: Invalid object type'):format(self.name));
+    assert(has_type(object, self.name), ('lib.database.schema:Serialize() %s: Invalid object type'):format(self.name));
     local serialized = {};
 
     for key, value in pairs(self.fields) do

@@ -2,7 +2,7 @@
 ---@return any
 return function(key)
 
-    if (typeof(lib.config.default[key], 'Config')) then
+    if (has_type(lib.config.default[key], 'Config')) then
 
         if (type(Config) == 'table') then
 

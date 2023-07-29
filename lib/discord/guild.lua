@@ -24,7 +24,7 @@ end
 ---@return lib.discord.channel
 function Guild:AddChannel(channelId)
     assert(type(channelId) == 'string', 'lib.discord.guild:AddChannel(): channel must be a string');
-    if (typeof(self.channels[channelId], 'lib.discord.channel')) then
+    if (has_type(self.channels[channelId], 'lib.discord.channel')) then
         local color = lib.color.get_current();
         console.warn(('lib.discord.guild:AddChannel(): guild ^7(%s%s^7)^0 has already a channel with id ^7(%s%s^7)^0.'):format(color, self.id, color, channel.id));
     else

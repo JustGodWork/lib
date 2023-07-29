@@ -8,3 +8,5 @@ require 'lib.database.index';
 require 'lib.game.index';
 require 'lib.entity.index';
 require 'lib.ui.index';
+
+lib.set_required_resource();

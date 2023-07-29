@@ -30,7 +30,7 @@ end
 
 ---@param resource? string
 function lib.set_required_resource(resource)
-    current_resource = lib.cache.type(resource) == 'string' and resource or GetCurrentResourceName();
+    current_resource = lib.cache.type(resource) == 'string' and resource or lib.current_resource;
 end
 
 ---@param modname string
@@ -39,7 +39,8 @@ function require(modname)
 
     if lib.cache.type(modname) ~= 'string' then return; end
 
-    local module = modules[modname];
+    local mod_id = ('%s.%s'):format(current_resource, modname);
+    local module = modules[mod_id];
 
     if (not module) then
 
@@ -50,7 +51,7 @@ function require(modname)
         local success, result = pcall(_require, modname);
 
         if (success) then
-            modules[modname] = result;
+            modules[mod_id] = result;
             return result;
         end
 
@@ -63,13 +64,13 @@ function require(modname)
 
             if (resourceFile) then
 
-                modules[modname] = false;
+                modules[mod_id] = false;
                 script = ('@@%s/%s'):format(current_resource, script)
 
                 local chunk, err = load(resourceFile, script)
 
                 if (err or not chunk) then
-                    modules[modname] = nil;
+                    modules[mod_id] = nil;
                     return error(err or ("Unable to load module '%s'"):format(modname), 0);
                 end
 
@@ -82,7 +83,7 @@ function require(modname)
                 end
 
                 module = chunk(modname) or true;
-                modules[modname] = module;
+                modules[mod_id] = module;
 
                 return module;
 
@@ -113,5 +114,3 @@ lib.classes.locale = require 'system.modules.locale';
 lib.classes.events = require 'system.modules.classes.EventEmitter';
 
 require 'lib.index';
-
-lib.set_required_resource();

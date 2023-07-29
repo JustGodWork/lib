@@ -1,5 +1,6 @@
 lib.entity = {};
 lib.entity.classes = {};
+lib.entity.players = {};
 
 lib.entity.request_model = require 'lib.entity.request_model';
 lib.entity.release_model = require 'lib.entity.release_model';
@@ -13,7 +14,6 @@ lib.entity.classes.entity = require 'lib.entity.classes.entity';
 lib.entity.classes.ped = require 'lib.entity.classes.ped.ped';
 lib.entity.classes.player_ped = require 'lib.entity.classes.ped.player_ped';
 lib.entity.classes.net_player = require 'lib.entity.classes.player.net';
-
-lib.local_player = not lib.is_server and require 'lib.entity.classes.player.local';
+lib.entity.classes.local_player = require 'lib.entity.classes.player.local';
 
 return lib.entity;
