@@ -3,7 +3,7 @@ lib.database.schema = require 'lib.database.classes.Schema';
 
 lib.database.validate_object = require 'lib.database.validate_object';
 lib.database.is_ready = require 'lib.database.is_ready';
-lib.database.on_ready = require 'lib.database.on_ready';
+lib.database.ready = require 'lib.database.ready';
 
 lib.database.insert = require 'lib.database.insert';
 lib.database.insert_one = require 'lib.database.insert_one';

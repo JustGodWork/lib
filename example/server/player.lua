@@ -27,7 +27,7 @@ end
 
 local player = TestPlayer();
 
-lib.database.on_ready(function()
+lib.database.ready(function()
     console.log('Database is ready');
     lib.database.insert_one('users', schema:Serialize(player), function(success, insertedCount, insertedIds)
         console.log(success, insertedCount, insertedIds);
