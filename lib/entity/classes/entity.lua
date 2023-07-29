@@ -28,6 +28,11 @@ function Entity:GetHandle()
     return self.handle;
 end
 
+---@return Entity
+function Entity:GetState()
+    return ENTITY(self:GetHandle()).state;
+end
+
 ---@return vector4
 function Entity:GetCoords()
     return lib.entity.get_coords(self:GetHandle());

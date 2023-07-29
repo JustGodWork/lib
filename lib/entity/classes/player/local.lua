@@ -18,6 +18,11 @@ local LocalPlayer = lib.class.singleton_extends("lib.entity.player.local", "Even
         self.ped = lib.entity.classes.player_ped(self.id);
     end
 
+    ---@return LocalPlayer
+    function self:GetState()
+        return LOCAL_PLAYER.state;
+    end
+
     ---@return lib.entity.player_ped
     function self:GetPed()
         return self.ped;

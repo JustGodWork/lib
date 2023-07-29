@@ -13,6 +13,11 @@ function Player:Constructor(id)
     self.ped = lib.entity.classes.player_ped(self.id);
 end
 
+---@return Player
+function Player:GetState()
+    return PLAYER(self.id).state;
+end
+
 ---@return lib.entity.player_ped
 function Player:GetPed()
     return self.ped;
