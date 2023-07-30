@@ -25,12 +25,12 @@ end
 ---@param id number
 ---@return lib.entity.player.net
 function Player.Get(id)
-    return has_type(id, 'lib.entity.player.net') and id or PLAYERS[tonumber(id)];
+    return has_type(id, 'lib.entity.player.net') and id or lib.entity.players[tonumber(id)];
 end
 
 ---@return lib.entity.player.net[]
 function Player.GetAll()
-    return PLAYERS;
+    return lib.entity.players;
 end
 
 ---@return string[]
@@ -51,7 +51,7 @@ end
 ---@param identifier string
 ---@return lib.entity.player.net | nil
 function Player.GetByIdentifier(identifier)
-    return PLAYERS[PLAYERS_IDENTIFIERS[identifier]];
+    return lib.entity.players[PLAYERS_IDENTIFIERS[identifier]];
 end
 
 ---@param player? lib.entity.player.net

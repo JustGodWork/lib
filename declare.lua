@@ -24,3 +24,9 @@
 ---@class Entity: StateBag
 ---@class Player: StateBag
 ---@class LocalPlayer: StateBag
+
+---@class lib.database.schema.field
+---@field public name string
+---@field public type string
+---@field public default any
+---@field public schema lib.database.schema

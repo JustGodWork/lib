@@ -1,7 +1,7 @@
 ---@class lib.database.schema: BaseObject
 ---@field public name string
 ---@field public fields table<string, lib.database.schema.field>
----@overload fun(name: string, fields: table<string, string>): lib.database.schema
+---@overload fun(name: string, fields: table<string, lib.database.schema.field>): lib.database.schema
 local Schema = lib.class.new 'lib.database.schema';
 
 ---@param name string
@@ -19,7 +19,7 @@ function Schema:Serialize(object)
     local serialized = {};
 
     for key, value in pairs(self.fields) do
-        if (type(self.fields[key]) == 'lib.database.schema.field') then
+        if (type(self.fields[key]) == 'table') then
             if (has_type(self.fields[key].schema, 'lib.database.schema')) then
                 serialized[key] = self.fields[key].schema:Serialize(object[key]);
             elseif (self.fields[key].type == 'vector2' and type(object[key]) == 'vector2') then
@@ -45,7 +45,7 @@ function Schema:GetResult(result)
     local object = {};
 
     for key, value in pairs(self.fields) do
-        if (type(self.fields[key]) == 'lib.database.schema.field') then
+        if (type(self.fields[key]) == 'table') then
             if (has_type(self.fields[key].schema, 'lib.database.schema')) then
                 object[key] = self.fields[key].schema:GetResult(result[key]);
             elseif (self.fields[key].type == 'vector2' and type(result[key]) == 'table') then
@@ -71,7 +71,7 @@ function Schema:Default()
     local default = {};
 
     for key, value in pairs(self.fields) do
-        if (type(self.fields[key]) == 'lib.database.schema.field') then
+        if (type(self.fields[key]) == 'table') then
             if (has_type(self.fields[key].schema, 'lib.database.schema')) then
                 default[key] = self.fields[key].schema:Default();
             elseif (self.fields[key].type == 'vector2') then
