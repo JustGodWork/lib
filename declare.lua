@@ -28,5 +28,5 @@
 ---@class lib.database.schema.field
 ---@field public name string
 ---@field public type string
----@field public default any
----@field public schema lib.database.schema
+---@field public default? any
+---@field public schema? lib.database.schema
