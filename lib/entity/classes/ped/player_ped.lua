@@ -18,10 +18,15 @@ function PlayerPed:GetHandle()
     return lib.is_server and GET_PLAYER_PED(self.id) or PLAYER_PED_ID();
 end
 
+---@async
 ---@param model string | number
 function PlayerPed:SetModel(model)
-    self.model = model;
-    SET_PLAYER_MODEL(self.id, model);
+    local _model = lib.is_server and model or lib.entity.request_model(model);
+    self.model = _model;
+    SET_PLAYER_MODEL(self.id, _model);
+    if (not lib.is_server) then
+        lib.entity.release_model(_model);
+    end
 end
 
 ---@param coords? vector4
