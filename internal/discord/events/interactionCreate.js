@@ -6,6 +6,8 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
     if (!interaction.isCommand()) return;
 
+    await interaction.deferReply({ ephemeral: true });
+
     const { commandName } = interaction;
     const command = client.commands.get(commandName);
     if (!command) return;
@@ -16,26 +18,30 @@ client.on(Events.InteractionCreate, async (interaction) => {
         try {
 
             if (command.role !== null && !interaction.member?.roles?.cache?.has(command.role)) {
-                await interaction.reply({
+                await interaction.followUp({
                     content: 'You do not have permission to use this command!',
                     ephemeral: true
                 });
             } else {
                 await command.execute(async function(message){
-                    await interaction.reply({ content: message, ephemeral: true });
+                    await interaction.followUp({ content: message, ephemeral: true });
                 }, interaction.user.id, interaction.options.data);
+                setTimeout(async () => {
+                    if (!interaction.replied)
+                        await interaction.deleteReply();
+                }, 8000);
             };
 
         } catch (error) {
             logger.error(error);
-            await interaction.reply({
+            await interaction.followUp({
                 content: 'There was an error while executing this command!',
                 ephemeral: true
             });
         };
     } else {
         logger.error('Command is missing data or execute.');
-        await interaction.reply({
+        await interaction.followUp({
             content: 'There was an error while executing this command!',
             ephemeral: true
         });

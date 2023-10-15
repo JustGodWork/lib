@@ -35,16 +35,16 @@ class CommandHandler {
      * @param {string} optionDescription
      * @param {boolean} required
      */
-    addStringOption(commandName, optionName, optionDescription, required, ...args) {
+    addStringOption(commandName, optionName, optionDescription, required, ...choices) {
 
         const command = client.commands.get(commandName);
         if (command === undefined) return;
 
         command.data.addStringOption(option =>
-            option.setName(typeof optionName === 'string' ? optionName: 'error_undefined_name')
+            option.setName(typeof optionName === 'string' ? optionName.toLowerCase(): 'error_undefined_name')
             .setDescription(typeof optionDescription === 'string' ? optionDescription: 'error_undefined_description')
             .setRequired(typeof required === 'boolean' ? required: false)
-            .addChoices(...args)
+            .addChoices(...choices)
         );
 
     };
@@ -56,16 +56,16 @@ class CommandHandler {
      * @param {string} optionDescription
      * @param {boolean} required
      */
-    addNumberOption(commandName, optionName, optionDescription, required, ...args) {
+    addNumberOption(commandName, optionName, optionDescription, required, ...choices) {
 
         const command = client.commands.get(commandName);
         if (command === undefined) return;
 
         command.data.addNumberOption(option =>
-            option.setName(typeof optionName === 'string' ? optionName: 'error_undefined_name')
+            option.setName(typeof optionName === 'string' ? optionName.toLowerCase(): 'error_undefined_name')
             .setDescription(typeof optionDescription === 'string' ? optionDescription: 'error_undefined_description')
             .setRequired(typeof required === 'boolean' ? required: false)
-            .addChoices(...args)
+            .addChoices(...choices)
         );
 
     };
@@ -83,7 +83,7 @@ class CommandHandler {
         if (command === undefined) return;
 
         command.data.addBooleanOption((option) =>
-            option.setName(typeof optionName === 'string' ? optionName: 'error_undefined_name')
+            option.setName(typeof optionName === 'string' ? optionName.toLowerCase(): 'error_undefined_name')
             .setDescription(typeof optionDescription === 'string' ? optionDescription: 'error_undefined_description')
             .setRequired(typeof required === 'boolean' ? required: false)
         );

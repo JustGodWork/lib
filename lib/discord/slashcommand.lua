@@ -3,12 +3,12 @@
 ---@field public description string
 ---@field public role string
 ---@field public options lib.discord.slash_command_option[]
----@overload fun(name: string, description: string, callback: fun(notify: fun(message: string), userId: string, ...:any), roleId: string): lib.discord.slash_command
+---@overload fun(name: string, description: string, callback: fun(notify: fun(message: string), userId: string, arguments: table<string, any>), roleId: string): lib.discord.slash_command
 local SlashCommand = lib.class.extends('lib.discord.slash_command', 'EventEmitter');
 
 ---@param name string
 ---@param description string
----@param callback fun(notify: fun(message: string), userId: string, ...:any)
+---@param callback fun(notify: fun(message: string), userId: string, arguments: table<string, any>)
 ---@param roleId? string
 function SlashCommand:Constructor(name, description, callback, roleId)
     self:super();
@@ -24,13 +24,26 @@ function SlashCommand:Constructor(name, description, callback, roleId)
     ---@param userId string
     ---@param data table
     exports['lib']:discord_add_command(name, description, function(notify, userId, data)
-        local success, result = pcall(callback, notify, userId, table.unpack(data));
+        local arguments = self:HandleArgs(data);
+        local success, result = pcall(callback, notify, userId, arguments);
         if (not success) then
-            console.error(('An error occured while executing the command %s: %s'):format(name, result));
+            console.err(('An error occured while executing the command %s: %s'):format(name, result));
             notify('An error occured while executing this command.');
         end
-        self:emit('execute', userId, table.unpack(data));
+        self:emit('execute', userId, arguments);
     end, roleId);
+end
+
+---@param args table
+---@return table<string, any>
+function SlashCommand:HandleArgs(args)
+    local options = {};
+    if (#args > 0) then
+        for i = 1, #args do
+            options[args[i].name] = args[i].value;
+        end
+    end
+    return options;
 end
 
 ---@param name string

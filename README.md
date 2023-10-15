@@ -44,13 +44,22 @@ end, 'arg', 'arg1', 'arg2', 1, 2, 3, 4, { "array?", "table?", "lua is good" });
 
 ``` lua
 
-local command = lib.discord.slash_command('testcommand', 'This is my first lua command!', function(notify, userId, ...)
+local command = lib.discord.slash_command('testcommand', 'This is my first lua command!', function(notify, userId, arguments)
   notify('This is my first lua command!');
-  console.log(...);
+  console.log(arguments);
 end, 'SOME_ROLE_ID OR NOTHING')
   :AddBooleanOption('test_boolean', 'This is my first boolean option', true)
-  :AddStringOption('test_string', 'This is my first string option', nil, true)
-  :AddNumberOption('test_number', 'This is my first number option', nil, true);
+  :AddStringOption('test_string', 'This is my first string option', true, {
+    {
+      name = "Hello",
+      value = "Hello you !"
+    },
+    {
+      name = "Hi",
+      value = "Hi!"
+    }
+  })
+  :AddNumberOption('test_number', 'This is my first number option', true);
 
 ```
 

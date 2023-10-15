@@ -70,13 +70,6 @@ lib.discord = lib.class.singleton_extends('lib.discord', 'EventEmitter', functio
         return false;
     end
 
-    ---Update commands in discord
-    ---
-    ---Need to be called after all commands are registered in your resources.
-    function self:UpdateCommands()
-        exports['lib']:discord_update_commands();
-    end
-
     return self;
 
 end);

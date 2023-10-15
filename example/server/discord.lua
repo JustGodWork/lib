@@ -52,9 +52,9 @@ channel:on('message', function(message)
     console.log(message.text .. ' was sent to discord');
 end);
 
-local command = lib.discord.slash_command('testcommand', 'This is my first lua command!', function(notify, userId, ...)
+local command = lib.discord.slash_command('testcommand', 'This is my first lua command!', function(notify, userId, arguments)
     notify('This is my first lua command!');
-    console.log(...);
+    console.log(arguments);
 end, 'SOME_ROLE_ID OR NOTHING')
     :AddBooleanOption('test_boolean', 'This is my first boolean option', true)
     :AddStringOption('test_string', 'This is my first string option', true, {
@@ -73,9 +73,6 @@ end, 'SOME_ROLE_ID OR NOTHING')
     })
     :AddNumberOption('test_number', 'This is my first number option', true);
 
-command:on('execute', function(userId, ...)
-    console.log('User ' .. userId .. ' executed the command with args:', {...});
+command:on('execute', function(userId, arguments)
+    console.log('User ' .. userId .. ' executed the command with args:', arguments);
 end);
-
---ALL METHODS BELOW ARE API RELATED SPAMMING THEM WILL RESULT IN A TIMEOUT FROM DISCORD API
---lib.discord:UpdateCommands(); -- Update all commands in discord (will delete all commands and re-create them)
