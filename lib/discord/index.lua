@@ -4,7 +4,6 @@ lib.discord = lib.class.singleton_extends('lib.discord', 'EventEmitter', functio
     ---@class lib.discord: EventEmitter
     ---@field public guild lib.discord.guild
     ---@field public channel lib.discord.channel
-    ---@field public field lib.discord.field
     ---@field public message lib.discord.message
     ---@field public guilds table<string, lib.discord.guild>
     local self = class;
@@ -13,11 +12,9 @@ lib.discord = lib.class.singleton_extends('lib.discord', 'EventEmitter', functio
         self:super();
         self.guild = require 'lib.discord.guild';
         self.channel = require 'lib.discord.channel';
-        self.field = require 'lib.discord.field';
         self.message = require 'lib.discord.message';
         self.slash_command = require 'lib.discord.slashcommand';
         self.slash_command_option = require 'lib.discord.slash_command_option';
-        self.slash_command_choice = require 'lib.discord.slash_command_choice';
         self.guilds = {};
     end
 
@@ -71,6 +68,13 @@ lib.discord = lib.class.singleton_extends('lib.discord', 'EventEmitter', functio
             console.warn(('lib.discord:RemoveGuild(): guild ^7(%s%s^7)^0 not exists.'):format(color, guildId));
         end
         return false;
+    end
+
+    ---Update commands in discord
+    ---
+    ---Need to be called after all commands are registered in your resources.
+    function self:UpdateCommands()
+        exports['lib']:discord_update_commands();
     end
 
     return self;

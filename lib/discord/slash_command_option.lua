@@ -1,16 +1,17 @@
 ---@class lib.discord.slash_command_option: BaseObject
 ---@field public name string
 ---@field public description string
----@field public choices lib.discord.slash_command_choice[]
+---@field public choices lib.DiscordSlashCommandChoice[]
 ---@field public required boolean
----@overload fun(command: lib.discord.slash_command, name: string, description: string, required: boolean, choices: lib.discord.slash_command_choice[]): lib.discord.slash_command_option
+---@overload fun(command: lib.discord.slash_command, name: string, description: string, required: boolean, choices: lib.DiscordSlashCommandChoice[]): lib.discord.slash_command_option
 local SlashCommandOption = lib.class.new 'lib.discord.slash_command_option';
 
 ---@param command string
 ---@param name string
 ---@param description string
 ---@param required boolean
----@param choices lib.discord.slash_command_choice[]
+---@param choices lib.DiscordSlashCommandChoice[]
+---@param type string
 function SlashCommandOption:Constructor(command, name, description, required, choices, type)
     self.name = name;
     self.description = description;

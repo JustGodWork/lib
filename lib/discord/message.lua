@@ -2,7 +2,7 @@
 ---@field public author string
 ---@field public author_image string
 ---@field public text string
----@field public fields lib.discord.field[]
+---@field public fields lib.DiscordField[]
 ---@field public footer_text string
 ---@field public footer_image string
 ---@field public color eDiscordColor
@@ -41,9 +41,9 @@ function Message:SetText(text)
     return self;
 end
 
----@param field lib.discord.field
+---@param field lib.DiscordField
 function Message:AddField(field)
-    assert(type(field) == 'lib.discord.field', 'lib.discord.message:AddField(): field must be a lib.discord.field');
+    assert(type(field) == 'table', 'lib.discord.message:AddField(): field must be a lib.DiscordField');
     assert(type(field.name) == 'string', 'lib.discord.message:AddField(): field.name must be a string');
     assert(type(field.value) == 'string', 'lib.discord.message:AddField(): field.value must be a string');
     assert(type(field.inline) == 'boolean', 'lib.discord.message:AddField(): field.inline must be a boolean');
@@ -51,7 +51,7 @@ function Message:AddField(field)
     return self;
 end
 
----@param fields lib.discord.field[]
+---@param fields lib.DiscordField[]
 function Message:SetFields(fields)
     assert(type(fields) == 'table', 'lib.discord.message:SetFields(): fields must be a table');
     self.fields = {};

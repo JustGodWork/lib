@@ -1,4 +1,10 @@
 ---@param str string
+---@return string
+function string.start(str, start)
+    return str:sub(1, 1) == start;
+end
+
+---@param str string
 ---@param sep string
 ---@return table
 function string.split(str, sep)

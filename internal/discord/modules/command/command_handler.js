@@ -1,7 +1,6 @@
 const { Events } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const client = require('../client');
-const api = require('./command_api');
 const logger = require('../logger');
 
 class CommandHandler {
@@ -95,59 +94,16 @@ class CommandHandler {
      *
      * @param {Function} callback
      */
-    deffer(callback) {
-        if (client.isReady()) {
-            if (typeof callback === 'function') callback();
-        } else {
-            client.on(Events.ClientReady, callback);
+    onReady(callback) {
+        try {
+            if (client.isReady()) {
+                callback();
+            } else {
+                client.on(Events.ClientReady, callback);
+            };
+        } catch (error) {
+            logger.error(error);
         };
-    };
-
-    /**
-     *
-     * @param {string} guildId
-     * @param {string} commandName
-     */
-    send(guildId, commandName) {
-        const command = client.commands.get(commandName);
-        if (command === undefined) return;
-        this.deffer(() => {
-            if (!client.guilds.cache.has(guildId)) return;
-            api.add(guildId, command.data.name, command.data);
-        });
-    };
-
-    /**
-     *
-     * @param {string} guildId
-     * @param {string} commandName
-     */
-    remove(guildId, commandName) {
-        this.deffer(() => {
-            if (!client.guilds.cache.has(guildId)) return;
-            api.remove(guildId, commandName);
-        });
-    };
-
-    removeAll(guildId) {
-        this.deffer(() => {
-            if (!client.guilds.cache.has(guildId)) return;
-            api.remove_all(guildId);
-        });
-    };
-
-    /**
-     *
-     * @param {string} guildId
-     * @param {string} commandName
-     */
-    update(guildId, commandName) {
-        const command = client.commands.get(commandName);
-        if (command === undefined) return;
-        this.deffer(() => {
-            if (!client.guilds.cache.has(guildId)) return;
-            api.update(guildId, command.data);
-        });
     };
 
 };

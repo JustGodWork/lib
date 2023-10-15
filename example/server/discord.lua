@@ -4,8 +4,16 @@ local channel = guild:AddChannel('channel_id');
 local message = lib.discord.message()
         :SetAuthor('Test')
         :SetText('Test message')
-        :AddField(lib.discord.field('Test field', 'Test value', false))
-        :AddField(lib.discord.field('Test field 2', 'Test value 2', false))
+        :AddField({
+            name =
+            value = 'Test field', 'Test value',
+            inline = false
+        })
+        :AddField({
+            name = 'Test field 2',
+            value = 'Test value 2',
+            inline = false
+        })
         :SetFooterImage('https://www.madinjapan.fr/29785-home_default/transformers-statue-bumblebee-prime-1-studio.jpg')
         :SetColor(eDiscordColor.LightGreen)
         :SetFooterText('Test footer');
@@ -14,8 +22,16 @@ local message2 = lib.discord.message()
     :SetAuthor('Test')
     :SetText('Test message')
     :SetFields({
-        lib.discord.field('This is my first field', 1, true),
-        lib.discord.field('This is my second field', 2, true),
+        {
+            name = 'This is my first field',
+            value = 1,
+            inline = true
+        },
+        {
+            name = 'This is my second field',
+            value = 2,
+            inline = true
+        },
     })
     :SetFooterImage('https://www.madinjapan.fr/29785-home_default/transformers-statue-bumblebee-prime-1-studio.jpg')
     :SetColor(eDiscordColor.Blue)
@@ -33,7 +49,7 @@ RegisterCommand('send_log', function(src)
 end);
 
 channel:on('message', function(message)
-    print(message.text .. ' was sent to discord');
+    console.log(message.text .. ' was sent to discord');
 end);
 
 local command = lib.discord.slash_command('testcommand', 'This is my first lua command!', function(notify, userId, ...)
@@ -42,8 +58,18 @@ local command = lib.discord.slash_command('testcommand', 'This is my first lua c
 end, 'SOME_ROLE_ID OR NOTHING')
     :AddBooleanOption('test_boolean', 'This is my first boolean option', true)
     :AddStringOption('test_string', 'This is my first string option', true, {
-        lib.discord.slash_command_choice('test', 'This is my first choice'),
-        lib.discord.slash_command_choice('test2', 'This is my second choice'),
+        {
+            name = 'test',
+            value = 'This is my first choice'
+        },
+        {
+            name = 'test2',
+            value = 'This is my second choice'
+        },
+        {
+            name = 'test3',
+            value = 'This is my third choice'
+        }
     })
     :AddNumberOption('test_number', 'This is my first number option', true);
 
@@ -52,7 +78,4 @@ command:on('execute', function(userId, ...)
 end);
 
 --ALL METHODS BELOW ARE API RELATED SPAMMING THEM WILL RESULT IN A TIMEOUT FROM DISCORD API
---guild:UpdateCommand(command); -- Update a command that already exist in your guild
---guild:RemoveCommand(command.name); -- Remove a command that already exist in your guild (Not working for now)
---guild:AddCommand(command); -- Add a command to your guild
---guild:RemoveAllCommands(); -- Remove all commands created by the bot from your guild
+--lib.discord:UpdateCommands(); -- Update all commands in discord (will delete all commands and re-create them)

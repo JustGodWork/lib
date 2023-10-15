@@ -9,7 +9,7 @@ local SlashCommand = lib.class.extends('lib.discord.slash_command', 'EventEmitte
 ---@param name string
 ---@param description string
 ---@param callback fun(notify: fun(message: string), userId: string, ...:any)
----@param roleId string
+---@param roleId? string
 function SlashCommand:Constructor(name, description, callback, roleId)
     self:super();
     assert(lib.is_server, 'This function can only be called on the server.');
@@ -20,8 +20,15 @@ function SlashCommand:Constructor(name, description, callback, roleId)
     self.description = description;
     self.role = roleId;
     self.options = {};
+    ---@param notify fun(message: string): void
+    ---@param userId string
+    ---@param data table
     exports['lib']:discord_add_command(name, description, function(notify, userId, data)
-        callback(notify, userId, table.unpack(data));
+        local success, result = pcall(callback, notify, userId, table.unpack(data));
+        if (not success) then
+            console.error(('An error occured while executing the command %s: %s'):format(name, result));
+            notify('An error occured while executing this command.');
+        end
         self:emit('execute', userId, table.unpack(data));
     end, roleId);
 end
@@ -29,7 +36,7 @@ end
 ---@param name string
 ---@param description string
 ---@param required boolean
----@param choices lib.discord.slash_command_choice[]
+---@param choices lib.DiscordSlashCommandChoice[]
 function SlashCommand:AddStringOption(name, description, required, choices)
     assert(type(name) == 'string', 'lib.discord.slash_command:AddStringOption(): name must be a string');
     assert(type(description) == 'string', 'lib.discord.slash_command:AddStringOption(): description must be a string');
@@ -42,7 +49,7 @@ end
 ---@param name string
 ---@param description string
 ---@param required boolean
----@param choices lib.discord.slash_command_choice[]
+---@param choices lib.DiscordSlashCommandChoice[]
 function SlashCommand:AddNumberOption(name, description, required, choices)
     assert(type(name) == 'string', 'lib.discord.slash_command:AddNumberOption(): name must be a string');
     assert(type(description) == 'string', 'lib.discord.slash_command:AddNumberOption(): description must be a string');
@@ -63,6 +70,8 @@ function SlashCommand:AddBooleanOption(name, description, required)
     return self;
 end
 
+---@param name string
+---@return lib.discord.slash_command_option
 function SlashCommand:GetOption(name)
     assert(type(name) == 'string', 'lib.discord.slash_command:GetOption(): name must be a string');
     return self.options[name];

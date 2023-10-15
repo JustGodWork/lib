@@ -103,7 +103,7 @@ function UIMenu:Constructor(Title, Subtitle, X, Y, TextureDictionary, TextureNam
     self.id = lib.uuid("xx6xx-xxxxx");
     self.data = {}
 
-    if string.starts(self.Subtitle, "~") then
+    if lib.ui.starts(self.Subtitle, "~") then
         self.PageCounterColour = string.lower(string.sub(self.Subtitle, 1, 3))
     else
         self.PageCounterColour = ""

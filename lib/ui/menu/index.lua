@@ -12,7 +12,7 @@
 --- @see ui
 ---
 
-function string.starts(String, Start)
+function lib.ui.starts(String, Start)
     return string.sub(String, 1, string.len(Start)) == Start
 end
 

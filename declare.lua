@@ -30,3 +30,12 @@
 ---@field public type string
 ---@field public default? any
 ---@field public schema? lib.database.schema
+
+---@class lib.DiscordField
+---@field public name string
+---@field public value string
+---@field public inline boolean
+
+---@class lib.DiscordSlashCommandChoice
+---@field public name string
+---@field public value string

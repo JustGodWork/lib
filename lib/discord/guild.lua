@@ -42,30 +42,4 @@ function Guild:GetChannel(id)
     return self.channels[id];
 end
 
----@param command lib.discord.slash_command
-function Guild:AddCommand(command)
-    assert(type(command) == 'lib.discord.slash_command', 'lib.discord.guild:AddCommand(): command must be a lib.discord.slash_command');
-    exports['lib']:discord_send_command(self.id, command.name);
-    return self;
-end
-
----@param command lib.discord.slash_command
-function Guild:UpdateCommand(command)
-    assert(type(command) == 'lib.discord.slash_command', 'lib.discord.guild:UpdateCommand(): command must be a lib.discord.slash_command');
-    exports['lib']:discord_update_command(self.id, command.name);
-    return self;
-end
-
----@param commandName string
-function Guild:RemoveCommand(commandName)
-    assert(type(commandName) == 'string', 'lib.discord.guild:RemoveCommand(): commandName must be a string');
-    exports['lib']:discord_remove_command(self.id, commandName);
-    return self;
-end
-
-function Guild:RemoveAllCommands()
-    exports['lib']:discord_remove_all_commands(self.id);
-    return self;
-end
-
 return Guild;

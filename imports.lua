@@ -109,6 +109,7 @@ lib.string = require 'system.modules.string';
 lib.table = require 'system.modules.table';
 lib.async = require 'system.modules.async';
 lib.uuid = require 'system.modules.uuid';
+lib.error_handler = require 'system.modules.error_handler';
 
 lib.classes.locale = require 'system.modules.locale';
 lib.classes.events = require 'system.modules.classes.EventEmitter';

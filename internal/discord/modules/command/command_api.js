@@ -1,113 +1,57 @@
-const { REST, Routes, SlashCommandBuilder } = require('discord.js');
+const { REST, Routes } = require('discord.js');
 const client = require('../client');
 const logger = require('../logger');
 
 const clientId = GetConvar('justgod_lib_discord_client_id', 'N/A');
 const token = GetConvar('justgod_lib_discord_token', 'N/A');
 
-const _token = token !== 'N/A' && typeof token === 'string' ? token : null;
-const client_id = clientId !== 'N/A' && typeof clientId === 'string' ? clientId : null;
+class CommandAPI {
 
-const rest = _token !== null ? new REST().setToken(token): null;
+    constructor() {
+        this._token = token !== 'N/A' && typeof token === 'string' ? token : null;
+        this.client_id = clientId !== 'N/A' && typeof clientId === 'string' ? clientId : null;
+        this.rest = this._token !== null ? new REST().setToken(this._token): null;
+    };
 
-/**
- *
- * @param {string} guildId
- * @return {Promise<Array>}
- */
-const get_commands = async (guildId) => {
-    if (_token !== null && client_id !== null) {
+    isInitialized() {
+        return this._token !== null && this.client_id !== null;
+    };
+
+    /**
+     *
+     * @return {Array}
+     */
+    format() {
+        if (!this.isInitialized()) return;
+        const commands = [];
+        for (const [name, command] of client.commands) {
+            if ('execute' in command && 'data' in command)
+                commands.push(command.data.toJSON());
+            else
+                logger.error(`Command ${name} is not formatted correctly.`);
+        };
+        return commands;
+    };
+
+    async update() {
+        if (!this.isInitialized()) return;
+
         try {
+            logger.info('Started registering commands...');
+            const commands = this.format();
 
-            const commands = await rest.get(Routes.applicationGuildCommands(client_id, guildId));
-            return commands;
+            await this.rest.put(
+                Routes.applicationCommands(this.client_id),
+                {body: commands},
+            );
 
+            logger.success('Successfully registered commands.');
         } catch (error) {
             logger.error(error);
         };
+
     };
+
 };
 
-module.exports = {
-    /**
-     *
-     * @param {string} guildId
-     * @param {string} commandName
-     * @param {SlashCommandBuilder} data
-     */
-    add: async (guildId, commandName, data) => {
-        if (_token !== null && client_id !== null) {
-
-            //todo: check why get_commands is sometime not working (Maybe timedout ?)
-            const command = get_commands(guildId).find(command => command.name === commandName);
-            if (command !== undefined && command !== null) return;
-
-            try {
-                await rest.post(
-                    Routes.applicationGuildCommands(clientId, guildId),
-                    { body: data.toJSON() },
-                );
-            } catch (error) {
-                logger.error(error);
-            };
-
-        };
-    },
-    /**
-     *
-     * @param {string} guildId
-     * @param {string} commandName
-     */
-    remove: async (guildId, commandName) => {
-        if (_token !== null && client_id !== null) {
-
-            //todo check why i can't delete commands
-
-            const command = get_commands(guildId).find(command => command.name === commandName);
-            if (command === undefined || command === null) return;
-
-            try {
-                await rest.delete(
-                    Routes.applicationGuildCommand(clientId, guildId, command.id),
-                );
-            } catch (error) {
-                logger.error(error);
-            };
-
-        };
-    },
-    /**
-     *
-     * @param {string} guildId
-     * @param {string} commandName
-     * @param {SlashCommandBuilder} data
-     */
-    update: async (guildId, data) => {
-        if (_token !== null && client_id !== null) {
-
-            try {
-                await rest.post(
-                    Routes.applicationGuildCommands(clientId, guildId),
-                    { body: data.toJSON() },
-                );
-            } catch (error) {
-                logger.error(error);
-            };
-
-        };
-    },
-    remove_all: async (guildId) => {
-        if (_token !== null && client_id !== null) {
-
-            try {
-                await rest.put(
-                    Routes.applicationGuildCommands(clientId, guildId),
-                    { body: [] },
-                );
-            } catch (error) {
-                logger.error(error);
-            };
-
-        };
-    }
-};
+module.exports = new CommandAPI();
