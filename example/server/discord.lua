@@ -5,7 +5,7 @@ local message = lib.discord.message()
         :SetAuthor('Test')
         :SetText('Test message')
         :AddField({
-            name =
+            name = 'Test field',
             value = 'Test field', 'Test value',
             inline = false
         })
@@ -24,12 +24,12 @@ local message2 = lib.discord.message()
     :SetFields({
         {
             name = 'This is my first field',
-            value = 1,
+            value = tostring(1),
             inline = true
         },
         {
             name = 'This is my second field',
-            value = 2,
+            value = tostring(2),
             inline = true
         },
     })
