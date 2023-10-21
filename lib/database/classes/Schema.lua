@@ -15,12 +15,12 @@ end
 ---@param object BaseObject
 ---@return table<string, any>
 function Schema:Serialize(object)
-    assert(has_type(object, self.name), ('lib.database.schema:Serialize() %s: Invalid object type'):format(self.name));
+    assert(typeof(object) == self.name, ('lib.database.schema:Serialize() %s: Invalid object type'):format(self.name));
     local serialized = {};
 
     for key, value in pairs(self.fields) do
         if (type(self.fields[key]) == 'table') then
-            if (has_type(self.fields[key].schema, 'lib.database.schema')) then
+            if (typeof(self.fields[key].schema) == 'lib.database.schema') then
                 serialized[key] = self.fields[key].schema:Serialize(object[key]);
             elseif (self.fields[key].type == 'vector2' and type(object[key]) == 'vector2') then
                 serialized[key] = { x = object[key].x, y = object[key].y };
@@ -46,7 +46,7 @@ function Schema:GetResult(result)
 
     for key, value in pairs(self.fields) do
         if (type(self.fields[key]) == 'table') then
-            if (has_type(self.fields[key].schema, 'lib.database.schema')) then
+            if (typeof(self.fields[key].schema) == 'lib.database.schema') then
                 object[key] = self.fields[key].schema:GetResult(result[key]);
             elseif (self.fields[key].type == 'vector2' and type(result[key]) == 'table') then
                 object[key] = vector2(result[key].x, result[key].y);
@@ -72,7 +72,7 @@ function Schema:Default()
 
     for key, value in pairs(self.fields) do
         if (type(self.fields[key]) == 'table') then
-            if (has_type(self.fields[key].schema, 'lib.database.schema')) then
+            if (typeof(self.fields[key].schema) == 'lib.database.schema') then
                 default[key] = self.fields[key].schema:Default();
             elseif (self.fields[key].type == 'vector2') then
                 if (type(self.fields[key].default) == 'vector2') then

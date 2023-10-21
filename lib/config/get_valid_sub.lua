@@ -3,13 +3,13 @@
 ---@return any
 return function(parent, key)
 
-    if (has_type(lib.config.default[parent], 'Config')) then
+    if (typeof(lib.config.default[parent]) == 'Config') then
 
         if (lib.config.default[parent].type == 'table') then
 
             local config = lib.config.get(parent);
 
-            if (has_type(lib.config.default[parent].data[key], 'Config')) then
+            if (typeof(lib.config.default[parent].data[key]) 'Config') then
                 if (type(config[key]) == lib.config.default[parent].data[key].type) then
                     return config[key];
                 elseif (type(lib.config.default[parent].data[key].secondary_type) == 'string') then

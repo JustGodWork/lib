@@ -6,7 +6,7 @@ local notification = lib.class.singleton('lib.notification', function(class)
     local self = class;
 
     function self:Constructor()
-        self.event = ('%s.%s'):format(lib.enums.libEvents.sendNotification, lib.current_resource);
+        self.event = ('%s.%s'):format(eLibEvents.sendNotification, lib.current_resource);
         if (not lib.is_server) then
             lib.events.on.net(self.event, function(message, hudColorIndex, isTranslation, ...)
                 self:Send(message, hudColorIndex, isTranslation, ...);

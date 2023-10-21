@@ -1,5 +1,5 @@
 ---@type lib.discord
-lib.discord = lib.class.singleton_extends('lib.discord', 'EventEmitter', function(class)
+lib.discord = lib.class.singleton('lib.discord', 'EventEmitter', function(class)
 
     ---@class lib.discord: EventEmitter
     ---@field public guild lib.discord.guild
@@ -46,7 +46,7 @@ lib.discord = lib.class.singleton_extends('lib.discord', 'EventEmitter', functio
     ---@return lib.discord.guild
     function self:AddGuild(guildId)
         assert(type(guildId) == 'string', 'lib.discord:AddGuild(): guildId must be a string');
-        if (has_type(self.guilds[guildId], 'lib.discord.guild')) then
+        if (typeof(self.guilds[guildId]) == 'lib.discord.guild') then
             local color = lib.color.get_current();
             console.warn(('lib.discord:AddGuild(): guild ^7(%s%s^7)^0 has already been registered.'):format(color, guildId));
         else
@@ -60,7 +60,7 @@ lib.discord = lib.class.singleton_extends('lib.discord', 'EventEmitter', functio
     ---@return boolean
     function self:RemoveGuild(guildId)
         assert(type(guildId) == 'string', 'lib.discord:RemoveGuild(): guildId must be a string');
-        if (has_type(self.guilds[guildId], 'lib.discord.guild')) then
+        if (typeof(self.guilds[guildId]) == 'lib.discord.guild') then
             self.guilds[guildId] = nil;
             return true;
         else

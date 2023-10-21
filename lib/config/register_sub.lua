@@ -4,7 +4,7 @@
 ---@param valueType string
 ---@param secondaryType string
 return function(parent, key, value, valueType, secondaryType)
-    if (has_type(lib.config.default[parent],'Config')) then
+    if (typeof(lib.config.default[parent]) == 'Config') then
         if (type(lib.config.default[parent].data[key]) ~= 'Config') then
             lib.config.default[parent].data[key] = lib.config.class.config(value, valueType, secondaryType);
         else

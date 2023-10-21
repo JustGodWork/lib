@@ -1,6 +1,5 @@
 lib = {};
 lib.cache = {};
-lib.cache.type = type;
 lib.classes = {};
 lib.is_server = IsDuplicityVersion();
 lib.name = 'lib';
@@ -30,14 +29,14 @@ end
 
 ---@param resource? string
 function lib.set_required_resource(resource)
-    current_resource = lib.cache.type(resource) == 'string' and resource or lib.current_resource;
+    current_resource = type(resource) == 'string' and resource or lib.current_resource;
 end
 
 ---@param modname string
 ---@return any
 function require(modname)
 
-    if lib.cache.type(modname) ~= 'string' then return; end
+    if type(modname) ~= 'string' then return; end
 
     local mod_id = ('%s.%s'):format(current_resource, modname);
     local module = modules[mod_id];
@@ -74,7 +73,7 @@ function require(modname)
                     return error(err or ("Unable to load module '%s'"):format(modname), 0);
                 end
 
-                if (lib.cache.type(console) == 'table' and lib.cache.type(console.debug) == 'function') then
+                if (type(console) == 'table' and type(console.debug) == 'function') then
                     if (lib.current_resource == current_resource) then
                         console.debug(('Loaded module ^7\'^2%s^7\'^0'):format(modname));
                     else
@@ -113,5 +112,8 @@ lib.error_handler = require 'system.modules.error_handler';
 
 lib.classes.locale = require 'system.modules.locale';
 lib.classes.events = require 'system.modules.classes.EventEmitter';
+lib.classes.list = require 'system.modules.classes.List';
+lib.classes.map = require 'system.modules.classes.Map';
+lib.classes.color = require 'system.modules.classes.Color';
 
 require 'lib.index';

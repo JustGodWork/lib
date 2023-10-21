@@ -20,7 +20,7 @@ end
 ---@param entity? Entity
 ---@return boolean
 function Entity.IsValid(entity)
-    return has_type(entity, entity.type) and lib.entity.does_exist(entity:GetHandle());
+    return typeof(entity) == entity.type and lib.entity.does_exist(entity:GetHandle());
 end
 
 ---@return number

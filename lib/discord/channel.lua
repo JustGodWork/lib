@@ -15,7 +15,7 @@ end
 
 ---@param message lib.discord.message
 function Channel:Send(message)
-    assert(type(message) == 'lib.discord.message', 'lib.discord.channel:Send(): message must be a lib.discord.message');
+    assert(typeof(message) == 'lib.discord.message', 'lib.discord.channel:Send(): message must be a lib.discord.message');
     exports['lib']:discord_send_message(
 
         self.guild,

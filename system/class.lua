@@ -1,70 +1,59 @@
-local class_builder = {};
 local classes = {};
 local singletons = {};
 
----@alias type
----| "nil"
----| "number"
----| "string"
----| "boolean"
----| "table"
----| "function"
----| "thread"
----| "userdata"
----| "BaseObject"
-
 ---@param v any
----@return type type
----@nodiscard
-function type(v)
-    if (lib.cache.type(v) == "table" and Class.HasMetatable(v)) then
-        return Class.GetName(v) or lib.cache.type(v);
+---@return string
+function typeof(v)
+    if (type(v) == 'table') then
+        if (Class.HasMetatable(v)) then
+            return Class.GetName(v);
+        end
     end
-    return lib.cache.type(v);
+    return type(v);
 end
 
----@param v any
----@param varType string | table
----@return boolean
-function has_type(v, varType)
-
-    if (lib.cache.type(varType) == 'table' or lib.cache.type(varType) == 'string' and classes[varType]) then
-        if (Class.HasMetatable(v)) then
-            return Class.IsInstanceOf(v, varType) or lib.cache.type(v) == varType;
-        end
-        return lib.cache.type(v) == varType;
-    end
-
-    return lib.cache.type(v) == varType;
-
+---FiveM | RedM Only
+---@param var any
+function is_function(var)
+    return (type(var) == 'function' or type(var) == 'table' and var['__cfx_functionReference'] ~= nil);
 end
 
 ---@param v any
 ---@return boolean
 function is_class(v)
-    return lib.cache.type(v) == "table" and Class.IsValid(v);
+    return type(v) == "table" and Class.IsValid(v);
+end
+
+function is_singleton(v)
+    return type(v) == "table" and Class.IsSingleton(v);
 end
 
 ---@param v any
 ---@return boolean
-function is_object(v)
-    return lib.cache.type(v) == "table" and Class.IsInstance(v);
+function is_instance(v)
+    return type(v) == "table" and Class.IsInstance(v);
+end
+
+---@param v any
+---@return string | nil
+function get_class_name(v)
+    return type(v) == "table" and Class.GetName(v) or nil;
 end
 
 ---@param name string
 ---@return BaseObject
-function class_builder.require(name)
+local function class_require(name)
     return classes[name];
 end
 
 ---@param name string
 ---@return BaseObject
-function class_builder.singleton_require(name)
+local function singleton_require(name)
     return singletons[name];
 end
 
 ---@param self BaseObject
-function class_builder.get_super_list(self)
+local function get_super_list(self)
 
     local list = {};
 
@@ -84,27 +73,28 @@ end
 
 ---@param class BaseObject
 ---@return BaseObject | nil
-function class_builder.super(class)
+local function class_super(class)
+    assert(type(class) == 'table', "Attempt to get super from an invalid class");
 	local metatable = getmetatable(class);
-	local metaSuper = metatable.__super;
-	if (metaSuper) then
-		return metaSuper;
+	local meta_super = metatable.__super;
+	if (meta_super) then
+		return meta_super;
 	end
 	return nil;
 end
 
 ---@param class BaseObject
 ---@return table
-function class_builder.build(class)
+local function class_build(class)
 
-    assert(class, "Attempt to build from an invalid class");
+    assert(type(class) == 'table', "Attempt to build from an invalid class");
 
     local metatable = getmetatable(class);
 
-    assert(metatable, "Attempt to build from an invalid class");
+    assert(type(metatable) == 'table', "Attempt to build from an invalid class");
     assert(singletons[metatable.__name] == nil, "Attempt to build instance from a singleton");
 
-    local super = class_builder.super(class);
+    local super = class_super(class);
 
     return setmetatable({}, {
         __index = class;
@@ -119,7 +109,7 @@ function class_builder.build(class)
         __div = metatable.__div;
         __pow = metatable.__pow;
         __concat = metatable.__concat;
-        __type = metatable.__new_type;
+        __type = metatable.__newtype;
         __name = metatable.__name;
         __super_called = 0;
     });
@@ -129,16 +119,16 @@ end
 ---@param class BaseObject
 ---@vararg
 ---@return BaseObject
-function class_builder.instance(class, ...)
+local function class_instance(class, ...)
 
 	if (class) then
 
-		local instance = class_builder.build(class);
+		local instance = class_build(class);
 
         local metatable = getmetatable(instance);
         local metasuper = getmetatable(metatable.__super);
 
-		if (lib.cache.type(instance["Constructor"]) == "function") then
+		if (type(instance["Constructor"]) == "function") then
 
             local success, err = pcall(instance["Constructor"], instance, ...);
 
@@ -167,24 +157,15 @@ function class_builder.instance(class, ...)
 
 end
 
---- Callback optional
 ---@param name string
----@param fromClass string
----@param callback? fun(class: BaseObject): table
----@return BaseObject
-function class_builder.prepare(name, fromClass, callback)
-
-    local _class = lib.cache.type(fromClass) == "string" and classes[fromClass] or fromClass;
-
-    assert(_class, "Attempt to extends from an invalid class");
-    assert(singletons[name] == nil, "Attempt to extends from a singleton");
-
-    local tbl = lib.cache.type(callback) == "function" and callback({}) or {};
-    local metatable = getmetatable(_class);
-
-    classes[name] = setmetatable(tbl, {
-        __index = _class;
-        __super = _class;
+---@param fromClass table
+---@param tbl table
+---@param newType string
+---@param metatable table
+local function prepare(name, fromClass, tbl, newType, metatable)
+    return setmetatable(tbl, {
+        __index = fromClass;
+        __super = fromClass;
         __newindex = metatable.__newindex;
         __call = metatable.__call;
         __len = metatable.__len;
@@ -196,11 +177,31 @@ function class_builder.prepare(name, fromClass, callback)
         __pow = metatable.__pow;
         __concat = metatable.__concat;
         __type = "class";
-        __new_type = "instance";
+        __newtype = newType;
         __name = name;
     });
+end
 
-    console.debug(('Created class ^6%s^0 from class ^3%s^0'):format(classes[name]:ToString(), _class:ToString()));
+--- Callback optional
+---@param name string
+---@param fromClass string
+---@param callback? fun(class: BaseObject): table
+---@return BaseObject
+local function class_prepare(name, fromClass, callback)
+
+    local _class = type(fromClass) == "string" and classes[fromClass] or fromClass;
+
+    assert(type(_class) == 'table', "Attempt to extends from an invalid class");
+    assert(singletons[name] == nil, "Attempt to extends from a singleton");
+
+    local tbl = type(callback) == "function" and callback({}) or {};
+    local metatable = getmetatable(_class);
+
+    classes[name] = prepare(name, _class, tbl, "instance", metatable);
+
+    local metainstance = getmetatable(classes[name]);
+
+    console.debug(('Created class ^6%s^0 from class ^3%s^0'):format(metainstance.__name, metatable.__name));
 
     return classes[name];
 
@@ -211,39 +212,24 @@ end
 ---@param fromClass string | BaseObject
 ---@param callback fun(class: BaseObject): table
 ---@vararg any
-function class_builder.prepare_singleton(name, fromClass, callback, ...)
+local function singleton_prepare(name, fromClass, callback, ...)
 
-    local _class = lib.cache.type(fromClass) == "string" and classes[fromClass] or fromClass;
-    assert(lib.cache.type(_class) == 'table', ("Attempt to extends from an invalid class '%s'"):format(lib.cache.type(fromClass)));
+    local _class = type(fromClass) == "string" and classes[fromClass] or fromClass;
+    assert(type(_class) == 'table', ("Attempt to extends from an invalid class '%s'"):format(type(fromClass)));
 
     local metatable = getmetatable(_class);
     assert(callback, ("Attempt to create a singleton '%s' without callback"):format(name));
 
     local tbl = callback({});
 
-    assert(lib.cache.type(tbl) == 'table', ("Attempt to create a singleton '%s' without return."):format(name));
+    assert(type(tbl) == 'table', ("Attempt to create a singleton '%s' without return."):format(name));
 
-    classes[name] = setmetatable(tbl, {
-        __index = _class;
-        __super = _class;
-        __newindex = metatable.__newindex;
-        __call = metatable.__call;
-        __len = metatable.__len;
-        __unm = metatable.__unm;
-        __add = metatable.__add;
-        __sub = metatable.__sub;
-        __mul = metatable.__mul;
-        __div = metatable.__div;
-        __pow = metatable.__pow;
-        __concat = metatable.__concat;
-        __type = "class";
-        __new_type = "singleton";
-        __name = name;
-    });
-
+    classes[name] = prepare(name, _class, tbl, "singleton", metatable);
     singletons[name] = classes[name](...);
 
-    console.debug(('Created singleton ^6%s^0 from class ^3%s^0'):format(classes[name]:ToString(), _class:ToString()));
+    local metainstance = getmetatable(singletons[name]);
+
+    console.debug(('Created singleton ^6%s^0 from class ^3%s^0'):format(metainstance.__name, metatable.__name));
 
     return singletons[name];
 
@@ -254,25 +240,20 @@ end
 ---@param callback fun(class: BaseObject): table
 ---@vararg any
 ---@return BaseObject
-function class_builder.singleton(name, callback, ...)
-    return class_builder.prepare_singleton(name, classes["BaseObject"], callback, ...);
-end
-
---- Callback required
----@param name string
----@param fromClass string | BaseObject
----@param callback fun(class: BaseObject): table
----@vararg any
-function class_builder.singleton_extends(name, fromClass, callback, ...)
-    return class_builder.prepare_singleton(name, fromClass, callback, ...);
+---@overload fun(name: string, fromClass: string | BaseObject, callback: fun(class: BaseObject): table, ...): BaseObject
+local function singleton(name, callback, ...)
+    if (is_function(callback)) then
+        return singleton_prepare(name, classes["BaseObject"], callback, ...);
+    end
+    return singleton_prepare(name, callback, ...);
 end
 
 --- Callback optional
 ---@param name string
 ---@param callback fun(class: BaseObject): table
 ---@return BaseObject
-function class_builder.new(name, callback)
-	return class_builder.prepare(name, classes["BaseObject"], callback);
+local function class_new(name, callback)
+	return class_prepare(name, classes["BaseObject"], callback);
 end
 
 --- Callback optional
@@ -280,8 +261,8 @@ end
 ---@param fromClass string | BaseObject
 ---@param callback fun(class: BaseObject): table
 ---@return BaseObject
-function class_builder.extends(name, fromClass, callback)
-    return class_builder.prepare(name, fromClass, callback);
+local function class_extends(name, fromClass, callback)
+    return class_prepare(name, fromClass, callback);
 end
 
 --CLASS
@@ -289,17 +270,16 @@ end
 ---@class Class
 Class = {};
 
-Class.extends = class_builder.extends;
-Class.singleton = class_builder.singleton;
-Class.singleton_extends = class_builder.singleton_extends;
-Class.new = class_builder.new;
-Class.require = class_builder.require;
-Class.singleton_require = class_builder.singleton_require;
+Class.extends = class_extends;
+Class.singleton = singleton;
+Class.new = class_new;
+Class.require = class_require;
+Class.singleton_require = singleton_require;
 
 ---@param var any
 ---@return boolean
 function Class.HasMetatable(var)
-    return lib.cache.type(var) == "table" and lib.cache.type(getmetatable(var)) == "table";
+    return type(var) == "table" and type(getmetatable(var)) == "table";
 end
 
 ---@param var any
@@ -334,7 +314,7 @@ end
 ---@return boolean
 function Class.IsInstanceOf(var, class)
 
-    local _class = lib.cache.type(class) == "string" and Class.require(class) or class;
+    local _class = type(class) == "string" and Class.require(class) or class;
 
     if (Class.IsInstance(var)) then
         return var:IsInstanceOf(Class.GetName(_class));
@@ -366,7 +346,7 @@ local BaseObject = setmetatable({}, {
 ---@private
 ---@return BaseObject
 function BaseObject:new(...)
-    return class_builder.instance(self, ...);
+    return class_instance(self, ...);
 end
 
 ---@return string
@@ -394,13 +374,13 @@ end
 function BaseObject:super(...)
 
     local metatable = getmetatable(self);
-    local list = class_builder.get_super_list(self);
+    local list = get_super_list(self);
     metatable.__super_called = metatable.__super_called + 1;
     local class = list[metatable.__super_called];
 
     assert(class, "BaseObject:super(): Class not found");
 
-    if (lib.cache.type(class["Constructor"]) == "function") then
+    if (type(class["Constructor"]) == "function") then
         return class["Constructor"](self, ...);
     end
 
@@ -419,7 +399,7 @@ function BaseObject:CallParentMethod(methodName, ...)
     local class = metatable.__super;
     assert(class, "BaseObject:CallParentMethod(): Class not found");
 
-    if (lib.cache.type(class[methodName]) == "function") then
+    if (type(class[methodName]) == "function") then
         return class[methodName](self, ...);
     end
 
@@ -449,9 +429,9 @@ end
 ---@return boolean
 function BaseObject:IsInstanceOf(class_name)
 
-    local _class = lib.cache.type(class_name) == "string" and classes[class_name] or class_name;
+    local _class = type(class_name) == "string" and classes[class_name] or class_name;
 
-    if(lib.cache.type(_class) ~= "table") then return false; end
+    if(type(_class) ~= "table") then return false; end
     local class_metatable = classes[class_name]:GetMetatable();
 
     local _class_name = class_metatable and class_metatable.__name or nil;

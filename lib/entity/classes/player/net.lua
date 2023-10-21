@@ -25,7 +25,7 @@ end
 ---@param id number
 ---@return lib.entity.player.net
 function Player.Get(id)
-    return has_type(id, 'lib.entity.player.net') and id or lib.entity.players[tonumber(id)];
+    return typeof(id) == 'lib.entity.player.net' and id or lib.entity.players[tonumber(id)];
 end
 
 ---@return lib.entity.player.net[]
@@ -57,11 +57,11 @@ end
 ---@param player? lib.entity.player.net
 ---@return boolean
 function Player.IsValid(player)
-    if (has_type(player, 'lib.entity.player.net')) then
+    if (typeof(player) == 'lib.entity.player.net') then
 
         local ped = player:GetPed();
 
-        if (has_type(ped, 'lib.entity.player_ped')) then
+        if (typeof(ped) == 'lib.entity.player_ped') then
             return ped:IsValid() and player:GetPing() > 0;
         end
 

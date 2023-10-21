@@ -13,6 +13,28 @@ local logTypes = {
 };
 
 ---@private
+---@param obj any
+---@return string
+local function get_type_name(obj)
+    local is_table = typeof(obj) == "table";
+    local is_class = is_class(obj);
+    local is_singleton = is_singleton(obj);
+    local is_class_instance = is_instance(obj);
+
+    return is_table and 'table'
+        or is_class and ('class \'%s\''):format(get_class_name(obj))
+        or is_singleton and ('singleton \'%s\''):format(get_class_name(obj))
+        or is_class_instance and ('instance of \'%s\''):format(get_class_name(obj));
+end
+
+---@private
+---@param obj any
+---@return boolean
+local function is_table(obj)
+    return type(obj) == "table" or is_class(obj) or is_singleton(obj) or is_instance(obj) or false;
+end
+
+---@private
 ---@param tbl table
 ---@param show_metatable boolean
 local function dump_table(tbl, show_metatable)
@@ -22,10 +44,10 @@ local function dump_table(tbl, show_metatable)
     -- Internal recursive function
     local function dump_table_recursive(object, indentation, show_meta)
 
-        local object_type = lib.cache.type(object);
+        local object_type = type(object);
 
         -- If it's a table and was not outputted yet
-        if (object_type == 'table' and not data[object]) then
+        if (is_table(object) and not data[object]) then
             local object_metatable = getmetatable(object);
 
             if (object_metatable and show_meta) then
@@ -42,7 +64,7 @@ local function dump_table(tbl, show_metatable)
             end
 
             table.sort(keys, function(a, b)
-                if lib.cache.type(a) == "number" and lib.cache.type(b) == "number" then
+                if type(a) == "number" and type(b) == "number" then
                     return a < b
                 else
                     return tostring(a) < tostring(b);
@@ -53,12 +75,12 @@ local function dump_table(tbl, show_metatable)
             indentation = indentation + 1
 
             -- Main table displays '{' in a separated line, subsequent ones will be in the same line
-            table_insert(buffer, indentation == 1 and "\n^7{^0" or "^7{^0");
+            table_insert(buffer, indentation == 1 and "\n^7" .. get_type_name(object) .. " -> {^0" or "^7" .. get_type_name(object) .. " -> {^0");
 
             -- For each member of the table, recursively outputs it
             for _, key in ipairs(keys) do
 
-                local formatted_key = lib.cache.type(key) == "number" and tostring(key) or '^7"^5' .. tostring(key) .. '^7"^0';
+                local formatted_key = type(key) == "number" and tostring(key) or '^7"^5' .. tostring(key) .. '^7"^0';
 
                 -- Appends the Key with indentation
                 table_insert(buffer, "\n" .. string.rep(" ", indentation * 4) .. formatted_key .. " = ");
@@ -88,8 +110,8 @@ local function dump_table(tbl, show_metatable)
                 obj_msg = '^5' .. obj .. '^0';
             elseif (object_type == "nil") then
                 obj_msg = '^11undefined^0';
-            elseif (object_type == "table") then
-                obj_msg = '^8'.. obj ..'^0';
+            elseif (is_table(object)) then
+                obj_msg = '^6' .. get_type_name(object) .. ': ' .. obj .. '^0';
             else
                 obj_msg = '^6' .. obj .. '^0';
             end
@@ -125,8 +147,8 @@ local function format_message(logType, ...)
 
         for i = 1, #args do
 
-            if (lib.cache.type(args[i]) == "table") then
-                msg = ("%s\n^5table^0: ^3%s"):format(msg, dump_table(args[i], args[i].show_meta));
+            if (type(args[i]) == 'table') then
+                msg = ("%s\n^3%s"):format(msg, dump_table(args[i], args[i].show_meta));
             else
                 msg = ("%s %s"):format(msg, tostring(args[i]));
             end
@@ -149,7 +171,7 @@ local function send_message(logType, ...)
     local success, msg = pcall(format_message, logType, ...);
 
     if (success) then
-        if (lib.cache.type(msg) == "string") then
+        if (type(msg) == "string") then
             _print(msg);
         end
     else
