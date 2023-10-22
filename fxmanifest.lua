@@ -20,5 +20,3 @@ files {
     'enums/**',
     'lib/**',
 };
-
-dependencies { 'yarn', 'webpack' };

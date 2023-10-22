@@ -22,10 +22,19 @@ function Player:Constructor(id)
 
 end
 
----@param id number
+---@param id number | lib.entity.player.net
 ---@return lib.entity.player.net
 function Player.Get(id)
-    return typeof(id) == 'lib.entity.player.net' and id or lib.entity.players[tonumber(id)];
+    return is_instance(id) and id or lib.entity.players[tonumber(id)];
+end
+
+---@param id number | lib.entity.player.net
+function Player.Remove(id)
+    local player = Player.Get(id);
+    if (player) then
+        lib.entity.players[player.id] = nil;
+        PLAYERS_IDENTIFIERS[player.identifier] = nil;
+    end
 end
 
 ---@return lib.entity.player.net[]
@@ -57,7 +66,7 @@ end
 ---@param player? lib.entity.player.net
 ---@return boolean
 function Player.IsValid(player)
-    if (typeof(player) == 'lib.entity.player.net') then
+    if (is_instance(player)) then
 
         local ped = player:GetPed();
 
@@ -102,6 +111,12 @@ end
 ---@vararg any
 function Player:ShowNotification(message, hudColorIndex, isTranslation, ...)
     lib.game.notification:SendTo(self.id, message, hudColorIndex, isTranslation, ...);
+end
+
+---@param reason string
+function Player:Kick(reason)
+    DropPlayer(self.id, reason);
+    self:Remove();
 end
 
 return Player;

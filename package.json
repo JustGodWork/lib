@@ -9,7 +9,7 @@
   "author": "JustGod",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^14.11.0",
-    "mongodb": "^3.6.3"
+    "discord.js": "14.11.0",
+    "mongodb": "3.7.4"
   }
 }

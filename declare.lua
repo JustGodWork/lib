@@ -1,19 +1,143 @@
+---@alias game
+---|>'"common"' # Runs on any game, but can't access game-specific APIs - only CitizenFX APIs.
+---|> '"gta4"' # Runs on LibertyM.
+---|> '"gta5"' # Runs on FiveM.
+---|> '"rdr3"' # Runs on RedM.
+
+--- fxmanifest resource metadata
+---
+--- Resource citizenfx manifest version
+---@param version string
+function fx_version(version)end
+
+--- fxmanifest resource metadata
+---
+--- Resource game version
+---@param game game
+function game(game)end
+
+--- fxmanifest resource metadata
+---
+--- Resource games
+---@param games game[]
+function games(games)end
+
+---@alias lua_version
+---|>'yes' # Lua 5.4 GLM
+---|> 'no' # CfxLua 5.3
+
+--- fxmanifest resource metadata
+---
+--- Resource lua version use lua 5.4
+---@param lua_version lua_version
+function lua54(lua_version)end
+
+--- fxmanifest resource metadata
+---
+--- Resource descriptor
+---@param description string
+function description(description)end
+
+--- fxmanifest resource metadata
+---
+--- Resource author
+---@param author string
+function author(author)end
+
+--- fxmanifest resource metadata
+---
+--- Resource repository
+---@param repository string
+function repository(repository)end
+
+--- fxmanifest resource metadata
+---
+--- Resource version
+---@param version string
+function version(version)end
+
+--- fxmanifest resource metadata
+---
+--- Resource files
+---@param files string[]
+function files(files)end
+
+--- fxmanifest resource metadata
+---
+--- Resource file
+---@param file string
+function file(file)end
+
+--- fxmanifest resource metadata
+---
+--- Resource shared scripts list
+---@param shared_scripts table
+function shared_scripts(shared_scripts)end
+
+--- fxmanifest resource metadata
+---
+--- Resource shared script
+---@param shared_script string
+function shared_script(shared_script)end
+
+--- fxmanifest resource metadata
+---
+--- Resource client scripts list
+---@param client_scripts table
+function client_scripts(client_scripts)end
+
+--- fxmanifest resource metadata
+---
+--- Resource client script
+---@param client_script string
+function client_script(client_script)end
+
+--- fxmanifest resource metadata
+---
+--- Resource server scripts list
+---@param server_scripts table
+function server_scripts(server_scripts)end
+
+--- fxmanifest resource metadata
+---
+--- Resource server script
+---@param server_script string
+function server_script(server_script)end
+
+--- fxmanifest resource metadata
+---
+--- Resource dependency list
+---@param dependencies table
+function dependencies(dependencies)end
+
+--- fxmanifest resource metadata
+---
+--- Resource dependency
+---@param dependency string
+function dependency(dependency)end
+
+---@class deferrals
+---@field public defer fun(): void
+---@field public presentCard fun(card: table, cb: fun(data: table, rawData: string): void): void
+---@field public update fun(message: string): void
+---@field public done fun(failureReason: string): void
+
 ---@class vector2
----@field x number
----@field y number
+---@field public x number
+---@field public y number
 ---@overload fun(x: number, y: number): vector2
 
 ---@class vector3
----@field x number
----@field y number
----@field z number
+---@field public x number
+---@field public y number
+---@field public z number
 ---@overload fun(x: number, y: number, z: number): vector3
 
 ---@class vector4
----@field x number
----@field y number
----@field z number
----@field w number
+---@field public x number
+---@field public y number
+---@field public z number
+---@field public w number
 ---@overload fun(x: number, y: number, z: number, w: number): vector4
 
 ---@class StateBag

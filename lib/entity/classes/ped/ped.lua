@@ -1,6 +1,8 @@
 local SET_PED_DEFAULT_COMPONENT_VARIATION = SetPedDefaultComponentVariation;
 local SET_PED_RANDOM_COMPONENT_VARIATION = SetPedRandomComponentVariation;
 local CLEAR_PED_BLOOD_DAMAGE = ClearPedBloodDamage;
+local GIVE_WEAPON_TO_PED = GiveWeaponToPed;
+local REMOVE_WEAPON_FROM_PED = RemoveWeaponFromPed;
 
 ---@class lib.entity.ped: lib.entity
 ---@field public handle number
@@ -24,6 +26,23 @@ end
 
 function Ped:ClearBloodDamage()
     CLEAR_PED_BLOOD_DAMAGE(self:GetHandle());
+end
+
+---@param name string
+---@param ammo number
+---@param forceInHand boolean
+function Ped:AddWeapon(name, ammo, forceInHand)
+    ---todo: Create Weapon Class
+    assert(type(name) == 'string', 'weaponName must be a string');
+    local hash = lib.game.hash(name:upper());
+    GIVE_WEAPON_TO_PED(self:GetHandle(), hash, ammo, false, forceInHand);
+end
+
+---@param name string
+function Ped:RemoveWeapon(name)
+    assert(type(name) == 'string', 'weaponName must be a string');
+    local hash = lib.game.hash(name:upper());
+    REMOVE_WEAPON_FROM_PED(self:GetHandle(), hash);
 end
 
 return Ped;
