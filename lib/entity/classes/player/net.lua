@@ -50,6 +50,7 @@ end
 ---@param playerId number
 ---@param identifierType eIdentifierType
 ---@param truncate boolean
+---@return string
 function Player.GetIdentifier(playerId, identifierType, truncate)
     local _type = identifierType or eIdentifierType.License;
     local pattern = ('%s:'):format(_type);

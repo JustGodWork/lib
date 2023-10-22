@@ -1,8 +1,10 @@
 local SET_PED_DEFAULT_COMPONENT_VARIATION = SetPedDefaultComponentVariation;
 local SET_PED_RANDOM_COMPONENT_VARIATION = SetPedRandomComponentVariation;
+local GET_SELECTED_PED_WEAPON = GetSelectedPedWeapon;
+local REMOVE_WEAPON_FROM_PED = RemoveWeaponFromPed;
 local CLEAR_PED_BLOOD_DAMAGE = ClearPedBloodDamage;
 local GIVE_WEAPON_TO_PED = GiveWeaponToPed;
-local REMOVE_WEAPON_FROM_PED = RemoveWeaponFromPed;
+
 
 ---@class lib.entity.ped: lib.entity
 ---@field public handle number
@@ -26,6 +28,13 @@ end
 
 function Ped:ClearBloodDamage()
     CLEAR_PED_BLOOD_DAMAGE(self:GetHandle());
+end
+
+--- Get the current equiped weapon hash
+---@return number
+function Ped:GetCurrentWeapon()
+    ---@todo: Create Weapon Class
+    return GET_SELECTED_PED_WEAPON(self:GetHandle());
 end
 
 ---@param name string
