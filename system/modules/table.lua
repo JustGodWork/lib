@@ -84,7 +84,7 @@ end
 function table.overload(callback, methods)
     return setmetatable({}, {
         __call = function(_, ...)
-            if (type(callback) == "function") then callback(...); end
+            if (type(callback) == "function") then return callback(...); end
         end,
         __index = function(_, key)
             assert(type(methods[key]) == "function", "table.overload(): Attempt to call an invalid method (" .. key .. ")");

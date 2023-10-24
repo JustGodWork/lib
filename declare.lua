@@ -116,29 +116,48 @@ function dependencies(dependencies)end
 ---@param dependency string
 function dependency(dependency)end
 
----@class deferrals
----@field public defer fun(): void
----@field public presentCard fun(card: table, cb: fun(data: table, rawData: string): void): void
----@field public update fun(message: string): void
----@field public done fun(failureReason: string): void
-
 ---@class vector2
 ---@field public x number
 ---@field public y number
----@overload fun(x: number, y: number): vector2
+
+---@param x number
+---@param y number
+---@return vector2
+function vector2(x, y) end
 
 ---@class vector3
 ---@field public x number
 ---@field public y number
 ---@field public z number
----@overload fun(x: number, y: number, z: number): vector3
+
+---@param x number
+---@param y number
+---@param z number
+---@return vector3
+function vector3(x, y, z) end
 
 ---@class vector4
 ---@field public x number
 ---@field public y number
 ---@field public z number
 ---@field public w number
----@overload fun(x: number, y: number, z: number, w: number): vector4
+
+---@param x number
+---@param y number
+---@param z number
+---@param w number
+---@return vector4
+function vector4(x, y, z, w) end
+
+---@class eventData
+---@field public key number
+---@field public name string
+
+---@class deferrals
+---@field public defer fun(): void
+---@field public presentCard fun(card: table, cb: fun(data: table, rawData: string): void): void
+---@field public update fun(message: string): void
+---@field public done fun(failureReason: string): void
 
 ---@class StateBag
 ---@field public set fun(self: StateBag, key: string, value: any, replicated: boolean): void
