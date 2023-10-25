@@ -3,8 +3,9 @@ local GET_INVOKING_RESOURCE = GetInvokingResource;
 ---@class lib.events.on
 ---@field public net fun(eventName: string, callback: fun(src: number | boolean, ...: any) | fun(...: any)): eventData
 ---@field public secure fun(eventName: string, callback: fun(src: number | boolean, ...: any) | fun(...: any)): eventData
----@field public callback fun(eventName: string, callback: fun(src: number, response: fun(...: any), ...: any) | fun(response: fun(...: any), ...: any), ...: any)
+---@field public callback fun(eventName: string, callback: fun(src: number, response: fun(...: any), ...: any) | fun(response: fun(...: any), ...: any), ...: any): eventData
 ---@field public internal fun(eventName: string, callback: fun(src: number | boolean, ...: any) | fun(...: any)): eventData
+---@field public game fun(eventName: string, callback: fun(...: any)): eventData
 ---@overload fun(eventName: string, callback: fun(...: any): void | fun(src: number | boolean, ...: any): void): eventData
 local on = table.overload(function(eventName, callback)
     return AddEventHandler(eventName, function(...)
@@ -88,6 +89,15 @@ end, {
                     return;
                 end
                 lib.events.safe_callback(eventName, callback, ...);
+            end
+        end);
+    end,
+    ---@param eventName string
+    ---@param callback fun(...: any): void
+    game = function(eventName, callback)
+        return AddEventHandler("gameEventTriggered", function(event, ...)
+            if (eventName == event) then
+                lib.events.safe_callback(("Game Event (%s)"):format(eventName), callback, ...);
             end
         end);
     end
