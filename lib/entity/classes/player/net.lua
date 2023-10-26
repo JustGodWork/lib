@@ -106,6 +106,13 @@ function Player:TriggerEvent(eventName, ...)
     self:emit(eventName, ...);
 end
 
+---@param eventName string
+---@param callback fun(...: any): void
+---@vararg any
+function Player:TriggerCallback(eventName, callback, ...)
+    lib.events.emit.callback(eventName, self.id, callback, ...);
+end
+
 ---@param message string
 ---@param hudColorIndex eHUDColorIndex
 ---@param isTranslation boolean
