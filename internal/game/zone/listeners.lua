@@ -5,15 +5,15 @@ if (lib.is_server) then return; end
 local PLAYER_PED_ID = PlayerPedId;
 local GET_ENTITY_COORDS = GetEntityCoords;
 
-lib.events.on(eLibEvents.zoneAdd, function(zone)
+lib.events.on(eLibEvents.zoneAdd, function(_, zone)
     zoneService:Register(zone);
 end);
 
-lib.events.on(eCitizenFXEvents.onResourceStop, function(resource)
+lib.events.on(eCitizenFXEvents.onResourceStop, function(_, resource)
     zoneService:RemoveByResource(resource);
 end);
 
-lib.events.on(eLibEvents.zoneUpdate, function(zoneId, key, value)
+lib.events.on(eLibEvents.zoneUpdate, function(_, zoneId, key, value)
     local zone = zoneService:Get(zoneId)
     if (typeof(zone) == 'InternalZone') then
         zone[key] = value;

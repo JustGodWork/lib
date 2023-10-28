@@ -1,5 +1,5 @@
 if (lib.is_server) then
-    lib.events.on(eCitizenFXEvents.onResourceStart, function(_, resource_name)
+    lib.events.on(eCitizenFXEvents.onResourceStart, function(_, _, resource_name)
 
         if (resource_name ~= lib.name) then return; end
 

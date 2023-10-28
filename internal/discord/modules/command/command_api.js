@@ -17,7 +17,7 @@ class CommandAPI {
     initialize() {
         client.on(Events.ClientReady, async () => {
             if (this.isInitialized())
-            logger.info('^0Discord integration ^2ready^0 ! Don\'t forget to use command: ^7"^4update_commands^7" after creating commands.');
+            logger.info('^0Discord integration ^2ready^0 ! Don\'t forget to use command: ^7"^4update_commands^7"^0 after creating commands.');
         });
         RegisterCommand('update_commands', async (source) => {
             if (source !== 0) return;

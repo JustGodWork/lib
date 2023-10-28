@@ -45,7 +45,7 @@ end
 ---@param str string | number
 ---@return number
 function string.hash(str)
-    return type(str) == 'string' and GetHashKey(str) or str;
+    return type(str) == 'string' and joaat(str) or str;
 end
 
 --- todo: fix all toVector methods Error: 'unfinished capture'

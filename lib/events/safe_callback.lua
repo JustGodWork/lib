@@ -1,5 +1,5 @@
 ---@param eventName string
----@param callback fun(src: number, ...: any)
+---@param callback fun(event: lib.events.base_event | lib.events.net_event, src: number, ...: any)
 ---@vararg any
 ---@overload fun(eventName: string, callback: fun(...: any), ...: any)
 return function(eventName, callback, ...)

@@ -116,6 +116,11 @@ function dependencies(dependencies)end
 ---@param dependency string
 function dependency(dependency)end
 
+---@param name string
+---@param cb fun(...:any): void
+---@overload ResourceExport[]
+function exports(name, cb) end
+
 ---@class vector2
 ---@field public x number
 ---@field public y number

@@ -1,6 +1,6 @@
 if (lib.is_server) then return; end
 
-lib.events.on.internal(eLibEvents.zoneStateChange, function(zoneId, key, value)
+lib.events.on.internal(eLibEvents.zoneStateChange, function(_, zoneId, key, value)
 
     local zone = lib.game.classes.zone.Get(zoneId);
 
