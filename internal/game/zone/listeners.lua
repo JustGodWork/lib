@@ -14,7 +14,8 @@ lib.events.on(eCitizenFXEvents.onResourceStop, function(_, resource)
 end);
 
 lib.events.on(eLibEvents.zoneUpdate, function(_, zoneId, key, value)
-    local zone = zoneService:Get(zoneId)
+    local zone = zoneService:Get(zoneId);
+
     if (typeof(zone) == 'InternalZone') then
         zone[key] = value;
     end
@@ -25,12 +26,16 @@ async(function()
         local zones = zoneService:GetAll();
         local ped = PLAYER_PED_ID();
         local coords = GET_ENTITY_COORDS(ped);
+
         for zoneId, zone in pairs(zones) do
             if (typeof(zone) ~= 'InternalZone') then goto continue; end
+
             if (zone.position == nil or zone.size == 0) then
                 goto continue;
             end
+
             local distance = #(coords - zone.position);
+
             if (distance <= zone.size) then
                 if (not zone.active) then
                     lib.events.emit(eLibEvents.zoneStateChange, zoneId, 'active', true);

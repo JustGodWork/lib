@@ -31,6 +31,7 @@ end
 ---@param id number | lib.entity.player.net
 function Player.Remove(id)
     local player = Player.Get(id);
+
     if (player) then
         lib.entity.players[player.id] = nil;
         PLAYERS_IDENTIFIERS[player.identifier] = nil;

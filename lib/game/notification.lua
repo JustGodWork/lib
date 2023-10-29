@@ -52,6 +52,15 @@ local notification = lib.class.singleton('lib.notification', function(class)
         lib.events.emit.net(self.event, source, message, hudColorIndex, isTranslation, ...);
     end
 
+    ---@param message string
+    ---@param hudColorIndex eHudColorIndex
+    ---@param isTranslation boolean
+    ---@vararg any
+    function self:Broadcast(message, hudColorIndex, isTranslation, ...)
+        assert(lib.is_server, 'This function can only be called on the server.');
+        lib.events.emit.broadcast(self.event, message, hudColorIndex, isTranslation, ...);
+    end
+
     return self;
 
 end);
