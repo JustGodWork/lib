@@ -29,8 +29,16 @@ function games(games)end
 --- fxmanifest resource metadata
 ---
 --- Resource lua version use lua 5.4
----@param lua_version lua_version
-function lua54(lua_version)end
+---@param use_54 lua_version
+function lua54(use_54)end
+
+--- fxmanifest resource metadata
+---@param resource_name string
+function name(resource_name) end
+
+---fxmanifest resource metadata
+---@param url_string string
+function url(url_string) end
 
 --- fxmanifest resource metadata
 ---
@@ -103,6 +111,15 @@ function server_scripts(server_scripts)end
 --- Resource server script
 ---@param server_script string
 function server_script(server_script)end
+
+
+--- fxmanifest resource metadata
+---@param html_file string
+function ui_page(html_file) end
+
+--- fxmanifest resource metadata
+---@param resource_symlink string
+function provide(resource_symlink) end
 
 --- fxmanifest resource metadata
 ---
