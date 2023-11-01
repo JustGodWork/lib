@@ -61,7 +61,7 @@ function require(modname)
             local script = path:gsub('?', modpath):gsub('%.+%/+', '');
             local resourceFile = LoadResourceFile(current_resource, script);
 
-            if (resourceFile) then
+            if (type(resourceFile) == 'string') then
 
                 modules[mod_id] = false;
                 script = ('@@%s/%s'):format(current_resource, script)
