@@ -4,8 +4,9 @@ game 'gta5';
 lua54 'yes';
 
 author 'JustGod';
+name "lib - (NO DISCORD VERSION)";
 description 'Providing all the tools you need to reproduce javascript classes in lua and more !';
-version '1.1.1';
+version '1.1.2';
 
 server_script 'internal/index.js'; -- DO NOT TOUCH THIS FILE !
 server_script 'internal/mongo/exports.js'; -- INTERNAL EXPORTS
@@ -23,3 +24,5 @@ files {
     'enums/**',
     'lib/**',
 };
+
+provide 'lib';
