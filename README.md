@@ -21,6 +21,10 @@ exec convars.cfg
 ensure lib
 ```
 
+# WARNING
+In this version, the discord-js implementation has been removed, as FiveM NodeJS is no longer compatible with it.
+I will update it with an API to API system, please be patient.
+
 # Utilities example
 
 ## Callbacks
@@ -37,29 +41,6 @@ end);
 lib.events.emit.callback('my_event_name', function(server_message)
   print('Server response is ' .. server_message);
 end, 'arg', 'arg1', 'arg2', 1, 2, 3, 4, { "array?", "table?", "lua is good" });
-
-```
-
-## Commands
-
-``` lua
-
-local command = lib.discord.slash_command('testcommand', 'This is my first lua command!', function(notify, userId, arguments)
-  notify('This is my first lua command!');
-  console.log(arguments);
-end, 'SOME_ROLE_ID OR NOTHING')
-  :AddBooleanOption('test_boolean', 'This is my first boolean option', true)
-  :AddStringOption('test_string', 'This is my first string option', true, {
-    {
-      name = "Hello",
-      value = "Hello you !"
-    },
-    {
-      name = "Hi",
-      value = "Hi!"
-    }
-  })
-  :AddNumberOption('test_number', 'This is my first number option', true);
 
 ```
 
