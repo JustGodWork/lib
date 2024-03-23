@@ -2,7 +2,7 @@ require 'lib.config.index';
 require 'lib.resource.index';
 require 'lib.convar.index';
 require 'lib.color.index';
-require 'lib.discord.index';
+--require 'lib.discord.index'; # Disabled for now due to issues with discord-js and FiveM NodeJS
 require 'lib.events.index';
 require 'lib.database.index';
 require 'lib.game.index';
