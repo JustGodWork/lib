@@ -386,15 +386,9 @@ function UIMenu:Open()
             lib.ui.TextEnabled = false;
             CreateThread(function()
                 while lib.ui.CurrentMenu ~= nil do
-                    if (lib.ui.CurrentMenu.Closable) then
-
-                        lib.ui.DisableControlsOnMenu();
-                        lib.ui.IsVisible(self);
-                        self:GetSubMenus();
-
-                    else
-                        self:Close();
-                    end
+                    lib.ui.DisableControlsOnMenu();
+                    lib.ui.IsVisible(self);
+                    self:GetSubMenus();
                     Wait(1);
                 end
             end);
@@ -404,7 +398,8 @@ end
 
 ---@return void
 function UIMenu:Close()
-    if (lib.ui.GetCurrentMenu() == self) then
+    local menu <const> = lib.ui.GetCurrentMenu();
+    if (menu == self) then
         if (self.Closed) then
             self.Closed();
         end
@@ -419,11 +414,11 @@ function UIMenu:Close()
             lib.ui.TextEnabled = true;
         end
         lib.ui.PlaySound(Audio[Audio.Use].Select.audioName, Audio[Audio.Use].Select.audioRef)
-        return
+        return;
     end
     if #SubMenus[self.id] > 0 then
         for _, submenu in pairs(SubMenus[self.id]) do
-            if lib.ui.GetCurrentMenu() ~= nil then
+            if (menu ~= nil) then
                 Menus[submenu]:Close();
             end
         end
