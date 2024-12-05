@@ -56,7 +56,7 @@ function Player.GetIdentifier(playerId, identifierType, truncate)
     local _type = identifierType or eIdentifierType.License;
     local pattern = ('%s:'):format(_type);
     local result = GetPlayerIdentifierByType(playerId, _type);
-    return truncate and result:gsub(pattern, '') or result;
+    return result and (truncate and result:gsub(pattern, '')) or result;
 end
 
 ---@param identifier string
