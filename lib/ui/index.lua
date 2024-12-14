@@ -39,7 +39,6 @@ if (not lib.is_server) then
 
     require 'lib.ui.menu.items.UIButton';
     require 'lib.ui.menu.items.UICheckBox';
-    require 'lib.ui.menu.items.UIInfo';
     require 'lib.ui.menu.items.UILine';
     require 'lib.ui.menu.items.UIList';
     require 'lib.ui.menu.items.UISeparator';
